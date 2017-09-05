@@ -22,10 +22,10 @@ function TileMap(x, y)
     [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
   ];
 
-  this.initialize(tileGlyphs);
+  this.x = x;
+  this.y = y;
 
-  this.x = 0;
-  this.y = 0;
+  this.initialize(tileGlyphs);
 
   this.width = this.tiles[0].length * this.tileSize;
   this.height = this.tiles.length * this.tileSize;
@@ -42,7 +42,7 @@ TileMap.prototype.initialize = function(tileGlyphs)
 
     for(var j = 0; j < tileGlyphs[i].length; j++)
     {
-      self.tiles[i][j] = new Tile(j * self.tileSize, i * self.tileSize, self.tileSize, tileGlyphs[i][j]);
+      self.tiles[i][j] = new Tile((j * self.tileSize) + self.x, (i * self.tileSize) + self.y, self.tileSize, tileGlyphs[i][j]);
     }
   }
 }

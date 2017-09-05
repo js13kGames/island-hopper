@@ -12,7 +12,7 @@ function Game(canvas, instructions, narrative, score, highScore)
   this.canvasHeight = this.canvas.height;
 
   this.player = new Player({ x: 30, y: 30 });
-  this.tileMap = new TileMap(30, 30);
+  this.tileMap = new TileMap(0, 23);
   this.healthBar = new HealthBar(0, 0, this.canvasWidth, 20);
 
   this.isUpPressed = false;
