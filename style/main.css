@@ -1,0 +1,18 @@
+html, body
+{
+  background: #000;
+  margin: 0;
+  padding: 0;
+}
+
+canvas
+{
+  display: block;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+canvas:focus
+{
+  outline: none;
+}
