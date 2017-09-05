@@ -55,14 +55,17 @@ Tile.prototype.updateTileType = function(tileType)
   switch(this.type)
   {
     case TileType.Land:
+      this.isPassable = true;
       this.color = 'rgb(0, 255, 255)';
       break;
 
     case TileType.Coast:
+      this.isPassable = true;
       this.color = 'rgb(0, 255, 255)';
       break;
 
     case TileType.Water:
+      this.isPassable = true;
       this.color = 'rgb(0, 0, 255)';
       break;
 
@@ -77,6 +80,7 @@ Tile.prototype.updateTileType = function(tileType)
       break;
 
     case TileType.Tower:
+      this.isPassable = true;
       this.color = 'rgb(0, 0, 0)';
       break;
   }

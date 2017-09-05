@@ -114,6 +114,13 @@ Game.prototype.update = function()
         self.playerHealth = self.maxPlayerHealth;
       }
     }
+
+    // Is the player interacting with a fruitless tree?
+    if(playerActionTile.type === TileType.Tree)
+    {
+      // If so, cut down the tree
+      playerActionTile.updateTileType(TileType.Land);
+    }
   }
 
   // Update the health bar
