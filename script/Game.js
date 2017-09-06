@@ -36,6 +36,7 @@ Game.prototype.update = function()
   var originalPlayerY = self.player.y;
 
   // Player movement
+
   if(self.isUpPressed)
   {
     self.player.y--;
@@ -56,14 +57,17 @@ Game.prototype.update = function()
     self.player.x++;
   }
 
-  // Player/map boundary interactions
+  // Prevent the player from leaving the map
+
   if(self.player.x <= self.tileMap.x
-      || self.player.y <= self.tileMap.y
-      || (self.player.x + self.player.width >= self.tileMap.x + self.tileMap.width)
+      || (self.player.x + self.player.width >= self.tileMap.x + self.tileMap.width))
+  {
+    self.player.x = originalPlayerX;
+  }
+
+  if(self.player.y <= self.tileMap.y
       || (self.player.y + self.player.height >= self.tileMap.y + self.tileMap.height))
   {
-    // If the player is outside the boundaries of the map, reset their position
-    self.player.x = originalPlayerX;
     self.player.y = originalPlayerY;
   }
 
@@ -78,7 +82,6 @@ Game.prototype.update = function()
       // Is the player intersecting with a tile that's not passable?
       if(!tile.isPassable)
       {
-        // If so, reset their X and Y back to original values
         self.player.x = originalPlayerX;
         self.player.y = originalPlayerY;
       }
