@@ -14,8 +14,8 @@ function Game(canvas, instructions, narrative, score, highScore)
   this.mapCenterX = (this.canvasWidth/2);
   this.mapCenterY = (this.canvasHeight/2);
 
-  this.player = new Player({ x: 30, y: 30 });
-  this.tileMap = new TileMap(0, 23);
+  this.player = new Player({ x: 0, y: 0 });
+  this.tileMap = new TileMap(0, 0);
   this.healthBar = new HealthBar(0, 0, this.canvasWidth * 0.85, 20);
   this.woodInventory = new WoodInventory(this.canvasWidth * 0.9, 20, this.canvasWidth * 0.1, 20);
 

@@ -22,13 +22,13 @@ function TileMap(x, y)
     [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
   ];
 
-  this.x = x;
-  this.y = y;
+  this.width = tileGlyphs[0].length * this.tileSize;
+  this.height = tileGlyphs.length * this.tileSize;
+
+  this.x = x - (this.width/2);
+  this.y = y - (this.height/2);
 
   this.initialize(tileGlyphs);
-
-  this.width = this.tiles[0].length * this.tileSize;
-  this.height = this.tiles.length * this.tileSize;
 }
 
 TileMap.prototype.initialize = function(tileGlyphs)
