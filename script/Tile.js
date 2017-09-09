@@ -15,19 +15,24 @@ function Tile(x, y, size, type)
   this.height = size;
   this.width = size;
 
+  this.halfHeight = (this.height/2);
+  this.halfWidth = (this.width/2);
+
   this.updateTileType(type);
 }
 
 /**
  * Renders the tile
  * @param {CanvasRenderingContext2D} context - 2D rendering context to use when rendering the tile
+ * @param {integer} mapCenterX - X-coordinate of the map's center
+ * @param {integer} mapCenterY - Y-coordinate of the map's center
  */
-Tile.prototype.draw = function(context)
+Tile.prototype.draw = function(context, mapCenterX, mapCenterY)
 {
   context.fillStyle = this.color;
   context.fillRect(
-    this.x,
-    this.y,
+    this.x - this.halfWidth + mapCenterX,
+    this.y - this.halfHeight + mapCenterY,
     this.width,
     this.height);
 };

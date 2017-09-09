@@ -11,6 +11,9 @@ function Game(canvas, instructions, narrative, score, highScore)
   this.canvasWidth = this.canvas.width;
   this.canvasHeight = this.canvas.height;
 
+  this.mapCenterX = (this.canvasWidth/2);
+  this.mapCenterY = (this.canvasHeight/2);
+
   this.player = new Player({ x: 30, y: 30 });
   this.tileMap = new TileMap(0, 23);
   this.healthBar = new HealthBar(0, 0, this.canvasWidth, 20);
@@ -39,7 +42,6 @@ Game.prototype.update = function()
   var originalPlayerY = self.player.y;
 
   // Player movement
-
   if(self.isUpPressed)
   {
     self.player.y--;
@@ -73,7 +75,6 @@ Game.prototype.update = function()
   }
 
   // Prevent the player from leaving the map
-
   if(self.player.x <= self.tileMap.x
       || (self.player.x + self.player.width >= self.tileMap.x + self.tileMap.width))
   {
@@ -146,6 +147,10 @@ Game.prototype.update = function()
 
   // Reset the player action
   self.isActionActive = false;
+
+  // Re-center the map
+  self.mapCenterX -= (self.player.x - originalPlayerX);
+  self.mapCenterY -= (self.player.y - originalPlayerY);
 }
 
 /**
@@ -156,16 +161,16 @@ Game.prototype.draw = function()
   var self = this;
 
   // Clear the canvas
-  self.context.clearRect(0, 0, self.canvasWidth, self.canvasHeigh);
+  self.context.clearRect(0, 0, self.canvasWidth, self.canvasHeight);
 
   // Draw the map
-  self.tileMap.draw(self.context);
+  self.tileMap.draw(self.context, self.mapCenterX, self.mapCenterY);
 
   // Draw the player
-  self.player.draw(self.context);
+  self.player.draw(self.context, self.mapCenterX, self.mapCenterY);
 
   // Draw the player's health bar
-  self.healthBar.draw(self.context);
+  self.healthBar.draw(self.context, self.mapCenterX, self.mapCenterY);
 }
 
 /**

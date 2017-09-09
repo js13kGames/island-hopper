@@ -10,18 +10,23 @@ function Player(props)
 
   this.height = 20;
   this.width = 20;
+
+  this.halfHeight = (this.height/2);
+  this.halfWidth = (this.width/2);
 }
 
 /**
  * Renders the player
  * @param {CanvasRenderingContext2D} context - 2D rendering context to use when rendering the player
+ * @param {integer} mapCenterX - X-coordinate of the map's center
+ * @param {integer} mapCenterY - Y-coordinate of the map's center
  */
-Player.prototype.draw = function(context)
+Player.prototype.draw = function(context, mapCenterX, mapCenterY)
 {
   context.fillStyle = 'rgb(255, 255, 255)';
   context.fillRect(
-    this.x,
-    this.y,
+    this.x - this.halfWidth + mapCenterX,
+    this.y - this.halfHeight + mapCenterY,
     this.width,
     this.height);
 };
