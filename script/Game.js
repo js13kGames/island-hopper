@@ -21,6 +21,9 @@ function Game(canvas, instructions, narrative, score, highScore)
   this.isRightPressed = false;
   this.isActionPressed = false;
 
+  this.isActionActive = false;
+  this.canActivateAction = false;
+
   this.maxPlayerHealth = 100;
   this.playerHealth = this.maxPlayerHealth;
 }
@@ -55,6 +58,18 @@ Game.prototype.update = function()
   if(self.isRightPressed)
   {
     self.player.x++;
+  }
+
+  // Set up the action button behavior
+  if(self.isActionPressed && self.canActivateAction)
+  {
+    self.isActionActive = true;
+    self.canActivateAction = false;
+  }
+
+  if(!self.isActionPressed)
+  {
+    self.canActivateAction = true;
   }
 
   // Prevent the player from leaving the map
@@ -103,7 +118,7 @@ Game.prototype.update = function()
   });
 
   // Is the player trying to interact with a tile?
-  if(self.isActionPressed && playerActionTile != null)
+  if(self.isActionActive && playerActionTile != null)
   {
     // Is the player interacting with a fruit tree?
     if(playerActionTile.type === TileType.TreeWithFruit)
@@ -119,7 +134,7 @@ Game.prototype.update = function()
     }
 
     // Is the player interacting with a fruitless tree?
-    if(playerActionTile.type === TileType.Tree)
+    else if(playerActionTile.type === TileType.Tree)
     {
       // If so, cut down the tree
       playerActionTile.updateTileType(TileType.Land);
@@ -128,6 +143,9 @@ Game.prototype.update = function()
 
   // Update the health bar
   self.healthBar.playerHealthPercentage = (self.playerHealth/100);
+
+  // Reset the player action
+  self.isActionActive = false;
 }
 
 /**
