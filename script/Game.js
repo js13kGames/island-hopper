@@ -16,7 +16,8 @@ function Game(canvas, instructions, narrative, score, highScore)
 
   this.player = new Player({ x: 30, y: 30 });
   this.tileMap = new TileMap(0, 23);
-  this.healthBar = new HealthBar(0, 0, this.canvasWidth, 20);
+  this.healthBar = new HealthBar(0, 0, this.canvasWidth * 0.85, 20);
+  this.woodInventory = new WoodInventory(this.canvasWidth * 0.9, 20, this.canvasWidth * 0.1, 20);
 
   this.isUpPressed = false;
   this.isDownPressed = false;
@@ -29,6 +30,8 @@ function Game(canvas, instructions, narrative, score, highScore)
 
   this.maxPlayerHealth = 100;
   this.playerHealth = this.maxPlayerHealth;
+
+  this.playerWoodCount = 0;
 }
 
 /**
@@ -139,11 +142,15 @@ Game.prototype.update = function()
     {
       // If so, cut down the tree
       playerActionTile.updateTileType(TileType.Land);
+      self.playerWoodCount++;
     }
   }
 
   // Update the health bar
   self.healthBar.playerHealthPercentage = (self.playerHealth/100);
+
+  // Update the wood inventory
+  self.woodInventory.count = self.playerWoodCount;
 
   // Reset the player action
   self.isActionActive = false;
@@ -170,7 +177,10 @@ Game.prototype.draw = function()
   self.player.draw(self.context, self.mapCenterX, self.mapCenterY);
 
   // Draw the player's health bar
-  self.healthBar.draw(self.context, self.mapCenterX, self.mapCenterY);
+  self.healthBar.draw(self.context);
+
+  // Draw the player's wood inventory
+  self.woodInventory.draw(self.context);
 }
 
 /**
