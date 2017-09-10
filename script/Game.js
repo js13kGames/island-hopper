@@ -95,6 +95,9 @@ Game.prototype.update = function()
   // Player/tile interactions
   var playerActionTile = null;
 
+  var resetX = false;
+  var resetY = false;
+
   self.tileMap.forEachTile(function(tile, tileX, tileY) {
 
     var intersection = Utility.getIntersection(self.player.getBoundingRectangle(), tile.getBoundingRectangle());
@@ -102,18 +105,23 @@ Game.prototype.update = function()
     // Tile intersects with player
     if(intersection != null)
     {
-      tile.isIntersecting = true;
-
       // Is the player climbing?
       if(self.isPlayerClimbing)
       {
-        // If so, only allow them to climb on tower tiles
-        if(tile.type != TileType.Tower)
+        // If so, ignore the tiles to the side
+        if(tile.x < self.player.x || tile.x >= (self.player.x + self.player.width))
         {
-          self.player.x = originalPlayerX;
-          self.player.y = originalPlayerY;
           return;
         }
+
+        // And only allow the player to pass tower tile types
+        if(tile.type != TileType.Tower)
+        {
+          resetX = true;
+          resetY = true;
+        }
+
+        return;
       }
 
       // Is the player intersecting with a tile that's not passable?
@@ -121,12 +129,12 @@ Game.prototype.update = function()
       {
         if(intersection.height != 0)
         {
-          self.player.x = originalPlayerX;
+          resetX = true;
         }
 
         if(intersection.width != 0)
         {
-          self.player.y = originalPlayerY;
+          resetY = true;
         }
       }
 
@@ -153,6 +161,17 @@ Game.prototype.update = function()
     else
     {
       tile.isIntersecting = false;
+    }
+
+    // If applicable, reset the player's X/Y coordinates
+    if(resetX)
+    {
+      self.player.x = originalPlayerX;
+    }
+
+    if(resetY)
+    {
+      self.player.y = originalPlayerY;
     }
 
     // Tile intersects with player action area
