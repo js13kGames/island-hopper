@@ -10,17 +10,13 @@ function TileMap(x, y)
   this.tileSize = 20;
   this.type = null;
 
-  var tileGlyphs = [
-    [0, 0, 0, 2, 2, 2, 2, 2, 2, 2],
-    [0, 0, 0, 2, 2, 2, 2, 2, 2, 2],
-    [0, 0, 0, 2, 2, 2, 2, 2, 2, 2],
-    [2, 2, 2, 2, 0, 0, 0, 0, 2, 2],
-    [2, 2, 2, 2, 0, 0, 3, 0, 2, 2],
-    [2, 2, 2, 2, 0, 0, 4, 0, 2, 2],
-    [2, 2, 2, 2, 0, 0, 0, 0, 2, 2],
-    [2, 2, 2, 2, 0, 0, 0, 0, 2, 2],
-    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+  this.islands = [
+    new Island(10, 10),
+    new Island(20, 20),
+    new Island(30, 30),
   ];
+
+  var tileGlyphs = this.generateGlyphs(this.islands);
 
   this.width = tileGlyphs[0].length * this.tileSize;
   this.height = tileGlyphs.length * this.tileSize;
@@ -74,7 +70,54 @@ TileMap.prototype.forEachTile = function(operation)
   {
     for(var j = 0; j < self.tiles[i].length; j++)
     {
-      operation(self.tiles[i][j]);
+      operation(self.tiles[i][j], j, i);
     }
   }
+};
+
+TileMap.prototype.getUndiscoveredIsland = function(tileX, tileY)
+{
+  var self = this;
+  var undiscoveredIsland = null;
+
+  self.islands.forEach(function(island) {
+
+    if(island.isDiscovered)
+    {
+      return;
+    }
+
+    if(island.containsCoordinate(tileX, tileY))
+    {
+      undiscoveredIsland = island;
+    }
+  });
+
+  return undiscoveredIsland;
+};
+
+TileMap.prototype.generateGlyphs = function(islands)
+{
+  var self = this;
+  var glyphs = [];
+
+  // Cover the entire map w/ water
+  for(var i=0; i<50; i++)
+  {
+    glyphs.push([]);
+
+    for(var j=0; j<50; j++)
+    {
+      glyphs[i][j] = TileType.Water;
+    }
+  }
+
+  // Add in islands
+  self.islands.forEach(function(island) {
+    island.tiles.forEach(function(tile) {
+      glyphs[tile.y][tile.x] = tile.type;
+    });
+  });
+
+  return glyphs;
 };

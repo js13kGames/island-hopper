@@ -93,7 +93,7 @@ Game.prototype.update = function()
   // Player/tile interactions
   var playerActionTile = null;
 
-  self.tileMap.forEachTile(function(tile) {
+  self.tileMap.forEachTile(function(tile, tileX, tileY) {
 
     // Tile intersects with player
     if(tile.intersects(self.player.getBoundingRectangle()))
@@ -110,6 +110,19 @@ Game.prototype.update = function()
       {
         // If so, deplete their health
         self.playerHealth -= 0.01;
+      }
+
+      // Is the player on a land tile?
+      if(tile.type === TileType.Land)
+      {
+        // Is the player on an undiscovered island?
+        var undiscoveredIsland = self.tileMap.getUndiscoveredIsland(tileX, tileY);
+
+        if(undiscoveredIsland != null)
+        {
+          // Mark the island as discovered
+          undiscoveredIsland.isDiscovered = true;
+        }
       }
     }
 
@@ -151,6 +164,24 @@ Game.prototype.update = function()
 
   // Update the wood inventory
   self.woodInventory.count = self.playerWoodCount;
+
+  // Have all the islands been discovered?
+  var maxIslandCount = self.tileMap.islands.length;
+  var discoveredIslands = 0;
+
+  self.tileMap.islands.forEach(function(island) {
+
+    if(island.isDiscovered)
+    {
+      discoveredIslands++;
+    }
+
+    if(maxIslandCount === discoveredIslands)
+    {
+      console.log('All islands discovered!');
+    }
+
+  });
 
   // Reset the player action
   self.isActionActive = false;
