@@ -97,9 +97,13 @@ Game.prototype.update = function()
 
   self.tileMap.forEachTile(function(tile, tileX, tileY) {
 
+    var intersection = Utility.getIntersection(self.player.getBoundingRectangle(), tile.getBoundingRectangle());
+
     // Tile intersects with player
-    if(tile.intersects(self.player.getBoundingRectangle()))
+    if(intersection != null)
     {
+      tile.isIntersecting = true;
+
       // Is the player climbing?
       if(self.isPlayerClimbing)
       {
@@ -115,8 +119,15 @@ Game.prototype.update = function()
       // Is the player intersecting with a tile that's not passable?
       if(!tile.isPassable)
       {
-        self.player.x = originalPlayerX;
-        self.player.y = originalPlayerY;
+        if(intersection.height != 0)
+        {
+          self.player.x = originalPlayerX;
+        }
+
+        if(intersection.width != 0)
+        {
+          self.player.y = originalPlayerY;
+        }
       }
 
       // Is the player on a water tile?
@@ -139,9 +150,13 @@ Game.prototype.update = function()
         }
       }
     }
+    else
+    {
+      tile.isIntersecting = false;
+    }
 
     // Tile intersects with player action area
-    if(playerActionTile == null && tile.intersects(self.player.getActionBoundingRectangle()))
+    if(playerActionTile == null && Utility.intersects(tile.getBoundingRectangle(), self.player.getActionBoundingRectangle()))
     {
       playerActionTile = tile;
     }

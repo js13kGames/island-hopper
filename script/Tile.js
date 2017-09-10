@@ -19,6 +19,8 @@ function Tile(x, y, size, type)
   this.halfWidth = (this.width/2);
 
   this.updateTileType(type);
+
+  this.isIntersecting = false;
 }
 
 /**
@@ -30,17 +32,18 @@ function Tile(x, y, size, type)
 Tile.prototype.draw = function(context, mapCenterX, mapCenterY)
 {
   context.fillStyle = this.color;
+
+  if(this.isIntersecting)
+  {
+    context.fillStyle = 'gray';
+  }
+
   context.fillRect(
     this.x - this.halfWidth + mapCenterX,
     this.y - this.halfHeight + mapCenterY,
     this.width,
     this.height);
 };
-
-Tile.prototype.intersects = function(boundingRect)
-{
-  return Utility.intersects(this.getBoundingRectangle(), boundingRect);
-}
 
 Tile.prototype.getBoundingRectangle = function()
 {

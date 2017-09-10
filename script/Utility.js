@@ -2,29 +2,28 @@ Utility = {};
 
 Utility.intersects = function(firstRect, secondRect)
 {
-  // Do the X coordinates intersect?
-  var xIntersects =
-    Utility.linesIntersect(firstRect.x, firstRect.x + firstRect.width, secondRect.x, secondRect.x + secondRect.width)
-    || Utility.linesIntersect(secondRect.x, secondRect.x + secondRect.width, firstRect.x, firstRect.x + firstRect.width);
-
-  if(!xIntersects)
-  {
-    // If the X-coordinates don't even intersect, we can stop now
-    return false;
-  }
-
-  // Do the Y coordinates intersect?
-  var yIntersects =
-    Utility.linesIntersect(firstRect.y, firstRect.y + firstRect.height, secondRect.y, secondRect.y + secondRect.height)
-    || Utility.linesIntersect(secondRect.y, secondRect.y + secondRect.height, firstRect.y, firstRect.y + firstRect.height);
-
-  return xIntersects && yIntersects;
+  return (Utility.getIntersection(firstRect, secondRect) != null);
 }
 
-Utility.linesIntersect = function(a1, a2, b1, b2)
+Utility.getIntersection = function(firstRect, secondRect)
 {
-  return (a2 >= b1 && a2 <= b1)
-    || (a1 >= b1 && a1 <= b2)
-    || (a1 >= b1 && a2 <= b2)
-    || (a1 <= b1 && a2 >= b2);
+  // Source: https://stackoverflow.com/a/22921131/74053
+
+  var leftXMax = Math.max(firstRect.x, secondRect.x);
+  var rightXMin = Math.min(firstRect.x + firstRect.width, secondRect.x + secondRect.width);
+
+  var topYMax = Math.max(firstRect.y, secondRect.y);
+  var bottomYMin = Math.min(firstRect.y + firstRect.height, secondRect.y + secondRect.height);
+
+  if(rightXMin >= leftXMax && bottomYMin >= topYMax)
+  {
+    return {
+      x: leftXMax,
+      y: topYMax,
+      width: (rightXMin - leftXMax),
+      height: (bottomYMin - topYMax)
+    };
+  }
+
+  return null;
 }

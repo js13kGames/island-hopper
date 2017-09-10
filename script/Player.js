@@ -8,8 +8,8 @@ function Player(props)
   this.x = props.x;
   this.y = props.y;
 
-  this.height = 20;
-  this.width = 20;
+  this.height = 30;
+  this.width = 30;
 
   this.halfHeight = (this.height/2);
   this.halfWidth = (this.width/2);
