@@ -7,7 +7,7 @@
 function TileMap(x, y)
 {
   this.tiles = [];
-  this.tileSize = 20;
+  this.tileSize = 30;
   this.type = null;
 
   this.islands = [

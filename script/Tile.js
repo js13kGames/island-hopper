@@ -85,7 +85,7 @@ Tile.prototype.updateTileType = function(tileType)
       break;
 
     case TileType.Tower:
-      this.isPassable = true;
+      this.isPassable = false;
       this.color = 'rgb(0, 0, 0)';
       break;
   }

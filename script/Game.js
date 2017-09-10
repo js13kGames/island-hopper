@@ -32,6 +32,8 @@ function Game(canvas, instructions, narrative, score, highScore)
   this.playerHealth = this.maxPlayerHealth;
 
   this.playerWoodCount = 0;
+
+  this.isPlayerClimbing = false;
 }
 
 /**
@@ -55,12 +57,12 @@ Game.prototype.update = function()
     self.player.y++;
   }
 
-  if(self.isLeftPressed)
+  if(self.isLeftPressed && !self.isPlayerClimbing)
   {
     self.player.x--;
   }
 
-  if(self.isRightPressed)
+  if(self.isRightPressed && !self.isPlayerClimbing)
   {
     self.player.x++;
   }
@@ -98,6 +100,18 @@ Game.prototype.update = function()
     // Tile intersects with player
     if(tile.intersects(self.player.getBoundingRectangle()))
     {
+      // Is the player climbing?
+      if(self.isPlayerClimbing)
+      {
+        // If so, only allow them to climb on tower tiles
+        if(tile.type != TileType.Tower)
+        {
+          self.player.x = originalPlayerX;
+          self.player.y = originalPlayerY;
+          return;
+        }
+      }
+
       // Is the player intersecting with a tile that's not passable?
       if(!tile.isPassable)
       {
@@ -156,6 +170,15 @@ Game.prototype.update = function()
       // If so, cut down the tree
       playerActionTile.updateTileType(TileType.Land);
       self.playerWoodCount++;
+    }
+
+    // Is the player interacting with a tower?
+    else if(playerActionTile.type === TileType.Tower)
+    {
+      // If so, place the player on the tower and set them into climbing state
+      self.player.x = playerActionTile.x;
+      self.player.y = playerActionTile.y;
+      self.isPlayerClimbing = true;
     }
   }
 

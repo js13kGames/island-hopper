@@ -28,10 +28,11 @@ Island.prototype.containsCoordinate = function(x, y)
 Island.prototype.generateTiles = function(x, y)
 {
   return [
-    { x: x, y: y, type: TileType.Land },
-    { x: x + 1, y: y, type: TileType.Land },
-    { x: x - 1, y: y, type: TileType.Land },
-    { x: x, y: y + 1, type: TileType.Land },
-    { x: x, y: y - 1, type: TileType.Land }
+    { x: x, y: y, type: TileType.Tower },
+    { x: x, y: y - 1, type: TileType.Tower },
+    { x: x, y: y - 2, type: TileType.Tower },
+    { x: x, y: y - 3, type: TileType.Tower },
+    { x: x, y: y - 4, type: TileType.Tower },
+    { x: x, y: y - 5, type: TileType.Tower },
   ];
 }
