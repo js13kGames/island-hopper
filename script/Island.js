@@ -32,7 +32,6 @@ Island.prototype.generateTiles = function(x, y)
     { x: x, y: y - 1, type: TileType.Tower },
     { x: x, y: y - 2, type: TileType.Tower },
     { x: x, y: y - 3, type: TileType.Tower },
-    { x: x, y: y - 4, type: TileType.Tower },
-    { x: x, y: y - 5, type: TileType.Tower },
+    { x: x, y: y - 4, type: TileType.Tower }
   ];
 }

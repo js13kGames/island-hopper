@@ -8,8 +8,8 @@ function Player(props)
   this.x = props.x;
   this.y = props.y;
 
-  this.height = 30;
-  this.width = 30;
+  this.height = props.size;
+  this.width = props.size;
 
   this.halfHeight = (this.height/2);
   this.halfWidth = (this.width/2);
@@ -25,11 +25,13 @@ function Player(props)
 Player.prototype.draw = function(context, mapCenterX, mapCenterY, zoomPercentage)
 {
   context.fillStyle = 'rgb(255, 255, 255)';
-  context.fillRect(
-    ((this.x - this.halfWidth) * zoomPercentage) + mapCenterX,
-    ((this.y - this.halfHeight) * zoomPercentage) + mapCenterY,
-    this.width * zoomPercentage,
-    this.height * zoomPercentage);
+
+  var x = ((this.x - this.halfWidth) * zoomPercentage) + mapCenterX;
+  var y = ((this.y - this.halfHeight) * zoomPercentage) + mapCenterY;
+  var width = this.width * zoomPercentage;
+  var height = this.height * zoomPercentage;
+
+  context.fillRect(x, y, width, height);
 };
 
 /**

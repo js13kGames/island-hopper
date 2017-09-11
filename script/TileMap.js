@@ -4,10 +4,10 @@
  * @param {integer} x - X-coordinate of the map
  * @param {integer} y - Y-cooridnate of the map
  */
-function TileMap(x, y)
+function TileMap(x, y, tileSize)
 {
   this.tiles = [];
-  this.tileSize = 30;
+  this.tileSize = tileSize;
   this.type = null;
 
   this.islands = [

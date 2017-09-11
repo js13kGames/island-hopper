@@ -11,11 +11,13 @@ function Game(canvas, instructions, narrative, score, highScore)
   this.canvasWidth = this.canvas.width;
   this.canvasHeight = this.canvas.height;
 
+  this.tileSize = 50;
+
   this.mapCenterX = (this.canvasWidth/2);
   this.mapCenterY = (this.canvasHeight/2);
 
-  this.player = new Player({ x: 0, y: 0 });
-  this.tileMap = new TileMap(0, 0);
+  this.player = new Player({ x: 0, y: 0, size: this.tileSize });
+  this.tileMap = new TileMap(0, 0, this.tileSize);
   this.healthBar = new HealthBar(0, 0, this.canvasWidth * 0.85, 20);
   this.woodInventory = new WoodInventory(this.canvasWidth * 0.9, 20, this.canvasWidth * 0.1, 20);
 
@@ -36,7 +38,7 @@ function Game(canvas, instructions, narrative, score, highScore)
   this.isPlayerClimbing = false;
   this.playerClimbStartTile = null;
 
-  this.maxZoomLevel = 500;
+  this.maxZoomLevel = 300;
   this.zoomLevel = 0;
   this.zoomPercentage = 1;
 }
