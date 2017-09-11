@@ -8,11 +8,24 @@ html, body
 canvas
 {
   display: block;
-  margin: 0 auto;
-  margin-top: 40px;
 }
 
 canvas:focus
 {
   outline: none;
+}
+
+.game-wrapper
+{
+  color: #FFF;
+  margin: 0 auto;
+  margin-top: 40px;
+  width: 400px;
+}
+
+#game-message
+{
+  font-family: monospace;
+  font-size: 1.1em;
+  padding: 0.5em;
 }

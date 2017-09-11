@@ -5,12 +5,16 @@
   <link rel="stylesheet" href="style/main.css">
 </head>
 <body>
-  <canvas id="game" tabindex="1" height="400" width="500"></canvas>
+  <div class="game-wrapper">
+    <canvas id="game" tabindex="1" height="400" width="500"></canvas>
+    <div id="game-message"></div>
+  </div>
 
   <script src="script/Game.js"></script>
   <script src="script/GameState.js"></script>
   <script src="script/HealthBar.js"></script>
   <script src="script/Island.js"></script>
+  <script src="script/MessageType.js"></script>
   <script src="script/Player.js"></script>
   <script src="script/Tile.js"></script>
   <script src="script/TileMap.js"></script>

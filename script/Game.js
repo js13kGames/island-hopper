@@ -3,13 +3,16 @@
  * @constructor
  * @param {HTMLCanvasElement} canvas - Canvas for displaying the game
  */
-function Game(canvas, instructions, narrative, score, highScore)
+function Game(canvas, gameMessageElement)
 {
   this.canvas = canvas;
   this.context = canvas.getContext("2d");
 
   this.canvasWidth = this.canvas.width;
   this.canvasHeight = this.canvas.height;
+
+  this.messageElement = gameMessageElement;
+  this.currMessageType = MessageType.None;
 
   this.state = GameState.Start;
 
@@ -217,6 +220,8 @@ Game.prototype.drawGameOverScreen = function()
 Game.prototype.updateGameplay = function()
 {
   var self = this;
+
+  self.updateMessages();
 
   var originalPlayerX = self.player.x;
   var originalPlayerY = self.player.y;
@@ -512,4 +517,29 @@ Game.prototype.generateLevel = function()
 Game.prototype.resetGame = function()
 {
   this.zonesCompleted = -1;
+}
+
+Game.prototype.updateMessage = function(message)
+{
+  this.messageElement.innerHTML = '"' + message + '"'
+}
+
+Game.prototype.clearMessage = function(message)
+{
+  this.messageElement.innerHTML = '';
+}
+
+Game.prototype.updateMessages = function()
+{
+  var self = this;
+
+  // Is the player just starting the tutorial?
+  if(self.zonesCompleted === 0)
+  {
+    if(self.currMessageType != MessageType.TutorialMoving)
+    {
+      self.currMessageType = MessageType.TutorialMoving;
+      self.updateMessage("Hello Island Hopper! Move with the arrow keys!");
+    }
+  }
 }
