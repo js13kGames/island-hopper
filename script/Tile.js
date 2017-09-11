@@ -28,21 +28,18 @@ function Tile(x, y, size, type)
  * @param {CanvasRenderingContext2D} context - 2D rendering context to use when rendering the tile
  * @param {integer} mapCenterX - X-coordinate of the map's center
  * @param {integer} mapCenterY - Y-coordinate of the map's center
+ * @param {float} zoomPercentage - Curret zoom percentage of the map
  */
-Tile.prototype.draw = function(context, mapCenterX, mapCenterY)
+Tile.prototype.draw = function(context, mapCenterX, mapCenterY, zoomPercentage)
 {
   context.fillStyle = this.color;
 
-  if(this.isIntersecting)
-  {
-    context.fillStyle = 'gray';
-  }
+  var x = Math.ceil(((this.x - this.halfWidth) * zoomPercentage) + mapCenterX);
+  var y = Math.ceil(((this.y - this.halfHeight) * zoomPercentage) + mapCenterY);
+  var width = Math.ceil(this.width * zoomPercentage);
+  var height = Math.ceil(this.height * zoomPercentage);
 
-  context.fillRect(
-    this.x - this.halfWidth + mapCenterX,
-    this.y - this.halfHeight + mapCenterY,
-    this.width,
-    this.height);
+  context.fillRect(x, y, width, height);
 };
 
 Tile.prototype.getBoundingRectangle = function()

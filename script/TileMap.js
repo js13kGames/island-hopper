@@ -48,8 +48,9 @@ TileMap.prototype.initialize = function(tileGlyphs)
  * @param {CanvasRenderingContext2D} context - 2D rendering context to use when rendering the map
  * @param {integer} mapCenterX - X-coordinate of the map's center
  * @param {integer} mapCenterY - Y-coordinate of the map's center
+ * @param {float} zoomPercentage - Curret zoom percentage of the map
  */
-TileMap.prototype.draw = function(context, mapCenterX, mapCenterY)
+TileMap.prototype.draw = function(context, mapCenterX, mapCenterY, zoomPercentage)
 {
   var self = this;
 
@@ -57,7 +58,7 @@ TileMap.prototype.draw = function(context, mapCenterX, mapCenterY)
   {
     for(var j = 0; j < self.tiles[i].length; j++)
     {
-      self.tiles[i][j].draw(context, mapCenterX, mapCenterY);
+      self.tiles[i][j].draw(context, mapCenterX, mapCenterY, zoomPercentage);
     }
   }
 };

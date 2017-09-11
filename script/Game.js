@@ -34,6 +34,11 @@ function Game(canvas, instructions, narrative, score, highScore)
   this.playerWoodCount = 0;
 
   this.isPlayerClimbing = false;
+  this.playerClimbStartTile = null;
+
+  this.maxZoomLevel = 500;
+  this.zoomLevel = 0;
+  this.zoomPercentage = 1;
 }
 
 /**
@@ -98,6 +103,8 @@ Game.prototype.update = function()
   var resetX = false;
   var resetY = false;
 
+  var isPlayerOnWater = false;
+
   self.tileMap.forEachTile(function(tile, tileX, tileY) {
 
     var intersection = Utility.getIntersection(self.player.getBoundingRectangle(), tile.getBoundingRectangle());
@@ -141,8 +148,7 @@ Game.prototype.update = function()
       // Is the player on a water tile?
       if(tile.type === TileType.Water)
       {
-        // If so, deplete their health
-        self.playerHealth -= 0.01;
+        isPlayerOnWater = true;
       }
 
       // Is the player on a land tile?
@@ -158,21 +164,6 @@ Game.prototype.update = function()
         }
       }
     }
-    else
-    {
-      tile.isIntersecting = false;
-    }
-
-    // If applicable, reset the player's X/Y coordinates
-    if(resetX)
-    {
-      self.player.x = originalPlayerX;
-    }
-
-    if(resetY)
-    {
-      self.player.y = originalPlayerY;
-    }
 
     // Tile intersects with player action area
     if(playerActionTile == null && Utility.intersects(tile.getBoundingRectangle(), self.player.getActionBoundingRectangle()))
@@ -181,6 +172,38 @@ Game.prototype.update = function()
     }
 
   });
+
+  // If the player is on water, deplete their health
+  if(isPlayerOnWater)
+  {
+    // If so, deplete their health
+    self.playerHealth -= 0.01;
+  }
+
+  // If the player is climbing, update their zoom level
+  if(self.isPlayerClimbing && (!resetX || !resetY))
+  {
+    if(self.isUpPressed)
+    {
+      self.zoomLevel++;
+    }
+
+    if(self.isDownPressed)
+    {
+      self.zoomLevel--;
+    }
+  }
+
+  // If applicable, reset the player's X/Y coordinates
+  if(resetX)
+  {
+    self.player.x = originalPlayerX;
+  }
+
+  if(resetY)
+  {
+    self.player.y = originalPlayerY;
+  }
 
   // Is the player trying to interact with a tile?
   if(self.isActionActive && playerActionTile != null)
@@ -222,6 +245,24 @@ Game.prototype.update = function()
   // Update the wood inventory
   self.woodInventory.count = self.playerWoodCount;
 
+  // Update the zoom level
+  if(self.zoomLevel < 0)
+  {
+    self.zoomLevel = 0;
+  }
+
+  if(self.zoomLevel > self.maxZoomLevel)
+  {
+    self.zoomLevel = self.maxZoomLevel;
+  }
+
+  if(!self.isPlayerClimbing)
+  {
+    self.zoomLevel = 0;
+  }
+
+  self.zoomPercentage = 1 - (self.zoomLevel/self.maxZoomLevel);
+
   // Have all the islands been discovered?
   var maxIslandCount = self.tileMap.islands.length;
   var discoveredIslands = 0;
@@ -259,10 +300,10 @@ Game.prototype.draw = function()
   self.context.clearRect(0, 0, self.canvasWidth, self.canvasHeight);
 
   // Draw the map
-  self.tileMap.draw(self.context, self.mapCenterX, self.mapCenterY);
+  self.tileMap.draw(self.context, self.mapCenterX, self.mapCenterY, self.zoomPercentage);
 
   // Draw the player
-  self.player.draw(self.context, self.mapCenterX, self.mapCenterY);
+  self.player.draw(self.context, self.mapCenterX, self.mapCenterY, self.zoomPercentage);
 
   // Draw the player's health bar
   self.healthBar.draw(self.context);

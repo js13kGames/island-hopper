@@ -20,15 +20,16 @@ function Player(props)
  * @param {CanvasRenderingContext2D} context - 2D rendering context to use when rendering the player
  * @param {integer} mapCenterX - X-coordinate of the map's center
  * @param {integer} mapCenterY - Y-coordinate of the map's center
+ * @param {float} zoomPercentage - Curret zoom percentage of the map
  */
-Player.prototype.draw = function(context, mapCenterX, mapCenterY)
+Player.prototype.draw = function(context, mapCenterX, mapCenterY, zoomPercentage)
 {
   context.fillStyle = 'rgb(255, 255, 255)';
   context.fillRect(
-    this.x - this.halfWidth + mapCenterX,
-    this.y - this.halfHeight + mapCenterY,
-    this.width,
-    this.height);
+    ((this.x - this.halfWidth) * zoomPercentage) + mapCenterX,
+    ((this.y - this.halfHeight) * zoomPercentage) + mapCenterY,
+    this.width * zoomPercentage,
+    this.height * zoomPercentage);
 };
 
 /**
