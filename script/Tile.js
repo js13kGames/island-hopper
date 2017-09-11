@@ -21,6 +21,12 @@ function Tile(x, y, size, type)
   this.updateTileType(type);
 
   this.isIntersecting = false;
+
+  this.waterTileImage = new Image();
+  this.waterTileImage.src = 'images/water.png';
+
+  this.landTileImage = new Image();
+  this.landTileImage.src = 'images/land.png';
 }
 
 /**
@@ -45,6 +51,18 @@ Tile.prototype.draw = function(context, mapWidth, mapHeight, mapCenterX, mapCent
   var width = this.width * zoomPercentage;
   var height = this.height * zoomPercentage;
 
+  if(this.type === TileType.Water)
+  {
+    context.drawImage(this.waterTileImage, x, y, width, height);
+    return;
+  }
+
+  if(this.type === TileType.Land)
+  {
+    context.drawImage(this.landTileImage, x, y, width, height);
+    return;
+  }
+
   context.fillRect(Math.ceil(x), Math.ceil(y), Math.ceil(width), Math.ceil(height));
 };
 
@@ -67,7 +85,7 @@ Tile.prototype.updateTileType = function(tileType)
   {
     case TileType.Land:
       this.isPassable = true;
-      this.color = 'rgb(0, 255, 255)';
+      this.color = 'rgb(255, 222, 121)';
       break;
 
     case TileType.Coast:
@@ -77,7 +95,7 @@ Tile.prototype.updateTileType = function(tileType)
 
     case TileType.Water:
       this.isPassable = true;
-      this.color = 'rgb(0, 0, 255)';
+      this.color = 'rgb(0, 114, 255)';
       break;
 
     case TileType.Tree:
