@@ -19,7 +19,7 @@ function Game(canvas, instructions, narrative, score, highScore)
   this.mapCenterY = (this.canvasHeight/2);
 
   this.player = new Player({ x: 0, y: 0, size: this.tileSize });
-  this.tileMap = new TileMap(0, 0, this.tileSize);
+  this.tileMap = null;
   this.healthBar = new HealthBar(0, 0, this.canvasWidth * 0.85, 20);
   this.woodInventory = new WoodInventory(this.canvasWidth * 0.9, 20, this.canvasWidth * 0.1, 20);
 
@@ -43,6 +43,8 @@ function Game(canvas, instructions, narrative, score, highScore)
   this.maxZoomLevel = 300;
   this.zoomLevel = 0;
   this.zoomPercentage = 1;
+
+  this.zonesCompleted = -1;
 }
 
 /**
@@ -58,6 +60,10 @@ Game.prototype.update = function()
 
     case GameState.Playing:
       this.updateGameplay();
+      return;
+
+    case GameState.ZoneComplete:
+      this.updateZoneCompleteScreen();
       return;
   }
 }
@@ -75,6 +81,10 @@ Game.prototype.draw = function()
 
     case GameState.Playing:
       this.drawGameplay();
+      return;
+
+    case GameState.ZoneComplete:
+      this.drawZoneCompleteScreen();
       return;
   }
 }
@@ -136,6 +146,7 @@ Game.prototype.updateStartScreen = function()
 
   if(self.isActionPressed)
   {
+    self.advanceLevel();
     self.state = GameState.Playing;
   }
 }
@@ -149,6 +160,28 @@ Game.prototype.drawStartScreen = function()
   self.context.font = "25px Arial";
   self.context.fillStyle = "rgb(255, 255, 255)";
   self.context.fillText("Island Hopper", 50, 50);
+}
+
+Game.prototype.updateZoneCompleteScreen = function()
+{
+  var self = this;
+
+  if(self.isActionPressed)
+  {
+    self.state = GameState.Playing;
+    self.advanceLevel();
+  }
+}
+
+Game.prototype.drawZoneCompleteScreen = function()
+{
+  var self = this;
+
+  self.context.clearRect(0, 0, self.canvasWidth, self.canvasHeight);
+
+  self.context.font = "25px Arial";
+  self.context.fillStyle = "rgb(255, 255, 255)";
+  self.context.fillText("Zone Complete! Zones Completed: " + self.zonesCompleted, 50, 50);
 }
 
 Game.prototype.updateGameplay = function()
@@ -381,9 +414,10 @@ Game.prototype.updateGameplay = function()
       discoveredIslands++;
     }
 
+    // Has the player discovered all of the islands?
     if(maxIslandCount === discoveredIslands)
     {
-      console.log('All islands discovered!');
+      self.state = GameState.ZoneComplete;
     }
 
   });
@@ -414,4 +448,17 @@ Game.prototype.drawGameplay = function()
 
   // Draw the player's wood inventory
   self.woodInventory.draw(self.context);
+}
+
+Game.prototype.advanceLevel = function()
+{
+  this.player.x = 0;
+  this.player.y = 0;
+  this.zonesCompleted++;
+  this.tileMap = this.generateLevel();
+}
+
+Game.prototype.generateLevel = function()
+{
+  return new TileMap(0, 0, this.tileSize);
 }
