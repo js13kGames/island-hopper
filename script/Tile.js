@@ -26,18 +26,24 @@ function Tile(x, y, size, type)
 /**
  * Renders the tile
  * @param {CanvasRenderingContext2D} context - 2D rendering context to use when rendering the tile
+ * @param {integer} mapWidth - Width of the map
+ * @param {integer} mapHeight - Height of the map
  * @param {integer} mapCenterX - X-coordinate of the map's center
  * @param {integer} mapCenterY - Y-coordinate of the map's center
  * @param {float} zoomPercentage - Curret zoom percentage of the map
  */
-Tile.prototype.draw = function(context, mapCenterX, mapCenterY, zoomPercentage)
+Tile.prototype.draw = function(context, mapWidth, mapHeight, mapCenterX, mapCenterY, zoomPercentage)
 {
   context.fillStyle = this.color;
 
-  var x = Math.ceil(((this.x - this.halfWidth) * zoomPercentage) + mapCenterX);
-  var y = Math.ceil(((this.y - this.halfHeight) * zoomPercentage) + mapCenterY);
-  var width = Math.ceil(this.width * zoomPercentage);
-  var height = Math.ceil(this.height * zoomPercentage);
+  var x = (this.x - this.halfWidth + mapCenterX) * zoomPercentage;
+  var y = (this.y - this.halfHeight + mapCenterY) * zoomPercentage;
+
+  x += (1 - zoomPercentage) * (mapWidth/2);
+  y += (1 - zoomPercentage) * (mapHeight/2);
+
+  var width = this.width * zoomPercentage;
+  var height = this.height * zoomPercentage;
 
   context.fillRect(x, y, width, height);
 };

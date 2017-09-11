@@ -302,10 +302,10 @@ Game.prototype.draw = function()
   self.context.clearRect(0, 0, self.canvasWidth, self.canvasHeight);
 
   // Draw the map
-  self.tileMap.draw(self.context, self.mapCenterX, self.mapCenterY, self.zoomPercentage);
+  self.tileMap.draw(self.context, self.canvasWidth, self.canvasHeight, self.mapCenterX, self.mapCenterY, self.zoomPercentage);
 
   // Draw the player
-  self.player.draw(self.context, self.mapCenterX, self.mapCenterY, self.zoomPercentage);
+  self.player.draw(self.context, self.canvasWidth, self.canvasHeight, self.mapCenterX, self.mapCenterY, self.zoomPercentage);
 
   // Draw the player's health bar
   self.healthBar.draw(self.context);

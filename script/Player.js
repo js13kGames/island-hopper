@@ -18,16 +18,22 @@ function Player(props)
 /**
  * Renders the player
  * @param {CanvasRenderingContext2D} context - 2D rendering context to use when rendering the player
+ * @param {integer} mapWidth - Width of the map
+ * @param {integer} mapHeight - Height of the map
  * @param {integer} mapCenterX - X-coordinate of the map's center
  * @param {integer} mapCenterY - Y-coordinate of the map's center
  * @param {float} zoomPercentage - Curret zoom percentage of the map
  */
-Player.prototype.draw = function(context, mapCenterX, mapCenterY, zoomPercentage)
+Player.prototype.draw = function(context, mapWidth, mapHeight, mapCenterX, mapCenterY, zoomPercentage)
 {
   context.fillStyle = 'rgb(255, 255, 255)';
 
-  var x = ((this.x - this.halfWidth) * zoomPercentage) + mapCenterX;
-  var y = ((this.y - this.halfHeight) * zoomPercentage) + mapCenterY;
+  var x = (this.x - this.halfWidth + mapCenterX) * zoomPercentage;
+  var y = (this.y - this.halfHeight + mapCenterY) * zoomPercentage;
+
+  x += (1 - zoomPercentage) * (mapWidth/2);
+  y += (1 - zoomPercentage) * (mapHeight/2);
+
   var width = this.width * zoomPercentage;
   var height = this.height * zoomPercentage;
 
