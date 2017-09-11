@@ -65,6 +65,10 @@ Game.prototype.update = function()
     case GameState.ZoneComplete:
       this.updateZoneCompleteScreen();
       return;
+
+    case GameState.GameOver:
+      this.updateGameOverScreen();
+      return;
   }
 }
 
@@ -85,6 +89,10 @@ Game.prototype.draw = function()
 
     case GameState.ZoneComplete:
       this.drawZoneCompleteScreen();
+      return;
+
+    case GameState.GameOver:
+      this.drawGameOverScreen();
       return;
   }
 }
@@ -182,6 +190,28 @@ Game.prototype.drawZoneCompleteScreen = function()
   self.context.font = "25px Arial";
   self.context.fillStyle = "rgb(255, 255, 255)";
   self.context.fillText("Zone Complete! Zones Completed: " + self.zonesCompleted, 50, 50);
+}
+
+Game.prototype.updateGameOverScreen = function()
+{
+  var self = this;
+
+  if(self.isActionPressed)
+  {
+    self.resetGame();
+    self.state = GameState.Start;
+  }
+}
+
+Game.prototype.drawGameOverScreen = function()
+{
+  var self = this;
+
+  self.context.clearRect(0, 0, self.canvasWidth, self.canvasHeight);
+
+  self.context.font = "25px Arial";
+  self.context.fillStyle = "rgb(255, 255, 255)";
+  self.context.fillText("Game Over", 50, 50);
 }
 
 Game.prototype.updateGameplay = function()
@@ -313,11 +343,18 @@ Game.prototype.updateGameplay = function()
 
   });
 
+  // Has the player run out of health?
+  if(self.playerHealth <= 0)
+  {
+    self.state = GameState.GameOver;
+    return;
+  }
+
   // If the player is on water, deplete their health
   if(isPlayerOnWater)
   {
     // If so, deplete their health
-    self.playerHealth -= 0.01;
+    self.playerHealth -= 0.1;
   }
 
   // If the player is climbing, update their zoom level
@@ -452,8 +489,15 @@ Game.prototype.drawGameplay = function()
 
 Game.prototype.advanceLevel = function()
 {
+  // Reset the player
   this.player.x = 0;
   this.player.y = 0;
+  this.playerHealth = this.maxPlayerHealth;
+
+  // Reset the map center
+  this.mapCenterX = (this.canvasWidth/2);
+  this.mapCenterY = (this.canvasHeight/2);
+
   this.zonesCompleted++;
   this.tileMap = this.generateLevel();
 }
@@ -461,4 +505,9 @@ Game.prototype.advanceLevel = function()
 Game.prototype.generateLevel = function()
 {
   return new TileMap(0, 0, this.tileSize);
+}
+
+Game.prototype.resetGame = function()
+{
+  this.zonesCompleted = -1;
 }
