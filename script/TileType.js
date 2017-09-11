@@ -1,8 +1,7 @@
 TileType = {
   Land: 0,
-  Coast: 1,
-  Water: 2,
-  Tree: 3,
-  TreeWithFruit: 4,
-  Tower: 5
+  Water: 1,
+  Tree: 2,
+  TreeWithFruit: 3,
+  Tower: 4
 };

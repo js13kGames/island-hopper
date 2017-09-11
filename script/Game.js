@@ -11,7 +11,7 @@ function Game(canvas, instructions, narrative, score, highScore)
   this.canvasWidth = this.canvas.width;
   this.canvasHeight = this.canvas.height;
 
-  this.tileSize = 50;
+  this.tileSize = 20;
 
   this.mapCenterX = (this.canvasWidth/2);
   this.mapCenterY = (this.canvasHeight/2);
