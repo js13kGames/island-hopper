@@ -45,7 +45,7 @@ Tile.prototype.draw = function(context, mapWidth, mapHeight, mapCenterX, mapCent
   var width = this.width * zoomPercentage;
   var height = this.height * zoomPercentage;
 
-  context.fillRect(x, y, width, height);
+  context.fillRect(Math.ceil(x), Math.ceil(y), Math.ceil(width), Math.ceil(height));
 };
 
 Tile.prototype.getBoundingRectangle = function()
