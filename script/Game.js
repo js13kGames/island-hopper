@@ -269,11 +269,12 @@ Game.prototype.updateGameplay = function()
 
   // Player/tile interactions
   var playerActionTile = null;
+  var playerStandingTile = null;
+
+  var greatestIntersection = null;
 
   var resetX = false;
   var resetY = false;
-
-  var isPlayerOnWater = false;
 
   self.tileMap.forEachTile(function(tile, tileX, tileY) {
 
@@ -282,6 +283,13 @@ Game.prototype.updateGameplay = function()
     // Tile intersects with player
     if(intersection != null)
     {
+      // Determine which tile the player is standing on
+      if(greatestIntersection === null || (intersection.width > greatestIntersection.width && intersection.height > greatestIntersection.height))
+      {
+        greatestIntersection = intersection;
+        playerStandingTile = tile;
+      }
+
       // Is the player climbing?
       if(self.isPlayerClimbing)
       {
@@ -315,12 +323,6 @@ Game.prototype.updateGameplay = function()
         }
       }
 
-      // Is the player on a water tile?
-      if(tile.type === TileType.Water)
-      {
-        isPlayerOnWater = true;
-      }
-
       // Is the player on a land tile?
       if(tile.type === TileType.Land)
       {
@@ -351,7 +353,7 @@ Game.prototype.updateGameplay = function()
   }
 
   // If the player is on water, deplete their health
-  if(isPlayerOnWater)
+  if(playerStandingTile != null && playerStandingTile.type === TileType.Water)
   {
     // If so, deplete their health
     self.playerHealth -= 0.1;
