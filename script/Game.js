@@ -11,6 +11,8 @@ function Game(canvas, instructions, narrative, score, highScore)
   this.canvasWidth = this.canvas.width;
   this.canvasHeight = this.canvas.height;
 
+  this.state = GameState.Start;
+
   this.tileSize = 20;
 
   this.mapCenterX = (this.canvasWidth/2);
@@ -47,6 +49,109 @@ function Game(canvas, instructions, narrative, score, highScore)
  * Updates the game's state
  */
 Game.prototype.update = function()
+{
+  switch(this.state)
+  {
+    case GameState.Start:
+      this.updateStartScreen();
+      return;
+
+    case GameState.Playing:
+      this.updateGameplay();
+      return;
+  }
+}
+
+/**
+ * Draws the game
+ */
+Game.prototype.draw = function()
+{
+  switch(this.state)
+  {
+    case GameState.Start:
+      this.drawStartScreen();
+      return;
+
+    case GameState.Playing:
+      this.drawGameplay();
+      return;
+  }
+}
+
+/**
+ * Starts the game
+ */
+Game.prototype.start = function()
+{
+  var self = this;
+
+  self.canvas.addEventListener('keydown', function(event) { toggleKeys(event.keyCode, true); }, false);
+  self.canvas.addEventListener('keyup', function(event) { toggleKeys(event.keyCode, false); }, false);
+
+  function toggleKeys(keyCode, isPressed)
+  {
+    switch(keyCode)
+    {
+      // Up Arrow
+      case 38:
+        self.isUpPressed = isPressed;
+        break;
+
+      // Right Arrow
+      case 39:
+        self.isRightPressed = isPressed;
+        break;
+
+      // Left Arrow
+      case 37:
+        self.isLeftPressed = isPressed;
+        break;
+
+      // Down Arrow
+      case 40:
+        self.isDownPressed = isPressed;
+        break;
+
+      // Action
+      case 88:
+        self.isActionPressed = isPressed;
+        break;
+    }
+  }
+
+  function loop()
+  {
+    self.update();
+    self.draw();
+    requestAnimationFrame(loop);
+  }
+
+  loop();
+}
+
+Game.prototype.updateStartScreen = function()
+{
+  var self = this;
+
+  if(self.isActionPressed)
+  {
+    self.state = GameState.Playing;
+  }
+}
+
+Game.prototype.drawStartScreen = function()
+{
+  var self = this;
+
+  self.context.clearRect(0, 0, self.canvasWidth, self.canvasHeight);
+
+  self.context.font = "25px Arial";
+  self.context.fillStyle = "rgb(255, 255, 255)";
+  self.context.fillText("Island Hopper", 50, 50);
+}
+
+Game.prototype.updateGameplay = function()
 {
   var self = this;
 
@@ -291,10 +396,7 @@ Game.prototype.update = function()
   self.mapCenterY -= (self.player.y - originalPlayerY);
 }
 
-/**
- * Draws the game
- */
-Game.prototype.draw = function()
+Game.prototype.drawGameplay = function()
 {
   var self = this;
 
@@ -312,55 +414,4 @@ Game.prototype.draw = function()
 
   // Draw the player's wood inventory
   self.woodInventory.draw(self.context);
-}
-
-/**
- * Starts the game
- */
-Game.prototype.start = function()
-{
-  var self = this;
-
-  self.canvas.addEventListener('keydown', function(event) { toggleKeys(event.keyCode, true); }, false);
-  self.canvas.addEventListener('keyup', function(event) { toggleKeys(event.keyCode, false); }, false);
-
-  function toggleKeys(keyCode, isPressed)
-  {
-    switch(keyCode)
-    {
-      // Up Arrow
-      case 38:
-        self.isUpPressed = isPressed;
-        break;
-
-      // Right Arrow
-      case 39:
-        self.isRightPressed = isPressed;
-        break;
-
-      // Left Arrow
-      case 37:
-        self.isLeftPressed = isPressed;
-        break;
-
-      // Down Arrow
-      case 40:
-        self.isDownPressed = isPressed;
-        break;
-
-      // Action
-      case 88:
-        self.isActionPressed = isPressed;
-        break;
-    }
-  }
-
-  function loop()
-  {
-    self.update();
-    self.draw();
-    requestAnimationFrame(loop);
-  }
-
-  loop();
 }
