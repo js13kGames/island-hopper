@@ -544,7 +544,7 @@ Game.prototype.updateMessages = function()
     if(self.currMessageType != MessageType.TutorialMoving)
     {
       self.currMessageType = MessageType.TutorialMoving;
-      self.updateMessage("Hello Island Hopper! Move with the arrow keys!");
+      self.updateMessage("Hello Explorer! Move with the arrow keys!");
     }
   }
 }
