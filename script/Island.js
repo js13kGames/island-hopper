@@ -2,7 +2,7 @@
  * An island
  * @constructor
  */
-function Island(x, y)
+function Island(x, y, width, height)
 {
   this.tiles = this.generateTiles(x, y);
   this.isDiscovered = false;

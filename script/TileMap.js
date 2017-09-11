@@ -4,18 +4,15 @@
  * @param {integer} x - X-coordinate of the map
  * @param {integer} y - Y-cooridnate of the map
  */
-function TileMap(x, y, tileSize)
+function TileMap(x, y, tileSize, difficulty)
 {
+  this.mapSize = 100;
+
   this.tiles = [];
   this.tileSize = tileSize;
   this.type = null;
 
-  this.islands = [
-    new Island(10, 10),
-    new Island(20, 20),
-    new Island(30, 30),
-  ];
-
+  this.islands = this.generateIslands(difficulty);
   var tileGlyphs = this.generateGlyphs(this.islands);
 
   this.width = tileGlyphs[0].length * this.tileSize;
@@ -105,11 +102,11 @@ TileMap.prototype.generateGlyphs = function(islands)
   var glyphs = [];
 
   // Cover the entire map w/ water
-  for(var i=0; i<50; i++)
+  for(var i=0; i<self.mapSize; i++)
   {
     glyphs.push([]);
 
-    for(var j=0; j<50; j++)
+    for(var j=0; j<self.mapSize; j++)
     {
       glyphs[i][j] = TileType.Water;
     }
@@ -124,3 +121,14 @@ TileMap.prototype.generateGlyphs = function(islands)
 
   return glyphs;
 };
+
+TileMap.prototype.generateIslands = function(difficulty)
+{
+  var self = this;
+
+  return [
+    new Island(self.mapSize/2, self.mapSize/2),
+    new Island(20, 20),
+    new Island(30, 30),
+  ];
+}

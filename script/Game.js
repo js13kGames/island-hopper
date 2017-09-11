@@ -24,7 +24,7 @@ function Game(canvas, gameMessageElement)
   this.player = new Player({ x: 0, y: 0, size: this.tileSize });
   this.tileMap = null;
   this.healthBar = new HealthBar(0, 0, this.canvasWidth * 0.85, 20);
-  this.woodInventory = new WoodInventory(this.canvasWidth * 0.9, 20, this.canvasWidth * 0.1, 20);
+  this.woodInventory = new WoodInventory(this.canvasWidth * 0.86, 0, this.canvasWidth * 0.14, 20, 5);
 
   this.isUpPressed = false;
   this.isDownPressed = false;
@@ -38,6 +38,7 @@ function Game(canvas, gameMessageElement)
   this.maxPlayerHealth = 100;
   this.playerHealth = this.maxPlayerHealth;
 
+  this.maxWoodCount = 5;
   this.playerWoodCount = 0;
 
   this.isPlayerClimbing = false;
@@ -427,7 +428,7 @@ Game.prototype.updateGameplay = function()
   self.healthBar.playerHealthPercentage = (self.playerHealth/100);
 
   // Update the wood inventory
-  self.woodInventory.count = self.playerWoodCount;
+  //self.woodInventory.count = self.playerWoodCount;
 
   // Update the zoom level
   if(self.zoomLevel < 0)
@@ -487,6 +488,10 @@ Game.prototype.drawGameplay = function()
   // Draw the player
   self.player.draw(self.context, self.canvasWidth, self.canvasHeight, self.mapCenterX, self.mapCenterY, self.zoomPercentage);
 
+  // Draw a black bar behind the player HUD
+  self.context.fillStyle = 'rgb(0, 0, 0)';
+  self.context.fillRect(0, 0, self.canvasWidth, 25);
+
   // Draw the player's health bar
   self.healthBar.draw(self.context);
 
@@ -511,7 +516,7 @@ Game.prototype.advanceLevel = function()
 
 Game.prototype.generateLevel = function()
 {
-  return new TileMap(0, 0, this.tileSize);
+  return new TileMap(0, 0, this.tileSize, 0);
 }
 
 Game.prototype.resetGame = function()
