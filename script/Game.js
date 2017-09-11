@@ -12,7 +12,7 @@ function Game(canvas, gameMessageElement)
   this.canvasHeight = this.canvas.height;
 
   this.messageElement = gameMessageElement;
-  this.currMessageType = MessageType.None;
+  this.currMessage = null;
 
   this.state = GameState.Start;
 
@@ -49,6 +49,8 @@ function Game(canvas, gameMessageElement)
   this.zoomPercentage = 1;
 
   this.zonesCompleted = -1;
+
+  this.hasPlayerMoved = false;
 }
 
 /**
@@ -246,6 +248,12 @@ Game.prototype.updateGameplay = function()
   if(self.isRightPressed && !self.isPlayerClimbing)
   {
     self.player.x++;
+  }
+
+  // Tutorial: Has player moved?
+  if(self.isUpPressed || self.isDownPressed || self.isLeftPressed || self.isRightPressed)
+  {
+    self.hasPlayerMoved = true;
   }
 
   // Set up the action button behavior
@@ -526,11 +534,19 @@ Game.prototype.resetGame = function()
 
 Game.prototype.updateMessage = function(message)
 {
+  if(this.currMessage === message)
+  {
+    // Don't update the message unnecessarily
+    return;
+  }
+
+  this.currMessage = message;
   this.messageElement.innerHTML = '"' + message + '"'
 }
 
 Game.prototype.clearMessage = function(message)
 {
+  this.currMessage = null;
   this.messageElement.innerHTML = '';
 }
 
@@ -541,9 +557,12 @@ Game.prototype.updateMessages = function()
   // Is the player just starting the tutorial?
   if(self.zonesCompleted === 0)
   {
-    if(self.currMessageType != MessageType.TutorialMoving)
+    if(self.hasPlayerMoved)
     {
-      self.currMessageType = MessageType.TutorialMoving;
+      self.updateMessage("Great! Now it's time to eat! Stand in front of a tree with fruit and press X.");
+    }
+    else
+    {
       self.updateMessage("Hello Explorer! Move with the arrow keys!");
     }
   }

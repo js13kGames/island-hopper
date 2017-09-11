@@ -6,7 +6,7 @@
  */
 function TileMap(x, y, tileSize, difficulty)
 {
-  this.mapSize = 100;
+  this.mapSize = 60;
 
   this.tiles = [];
   this.tileSize = tileSize;
