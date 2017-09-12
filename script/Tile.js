@@ -27,6 +27,12 @@ function Tile(x, y, size, type)
 
   this.landTileImage = new Image();
   this.landTileImage.src = 'images/land.png';
+
+  this.treeWithFruitTileImage = new Image();
+  this.treeWithFruitTileImage.src = 'images/tree_with_fruit.png';
+
+  this.treeTileImage = new Image();
+  this.treeTileImage.src = 'images/tree.png';
 }
 
 /**
@@ -40,8 +46,6 @@ function Tile(x, y, size, type)
  */
 Tile.prototype.draw = function(context, mapWidth, mapHeight, mapCenterX, mapCenterY, zoomPercentage)
 {
-  context.fillStyle = this.color;
-
   var x = (this.x - this.halfWidth + mapCenterX) * zoomPercentage;
   var y = (this.y - this.halfHeight + mapCenterY) * zoomPercentage;
 
@@ -63,7 +67,17 @@ Tile.prototype.draw = function(context, mapWidth, mapHeight, mapCenterX, mapCent
     return;
   }
 
-  context.fillRect(Math.ceil(x), Math.ceil(y), Math.ceil(width), Math.ceil(height));
+  if(this.type === TileType.TreeWithFruit)
+  {
+    context.drawImage(this.treeWithFruitTileImage, x, y, width, height);
+    return;
+  }
+
+  if(this.type === TileType.Tree)
+  {
+    context.drawImage(this.treeTileImage, x, y, width, height);
+    return;
+  }
 };
 
 Tile.prototype.getBoundingRectangle = function()
@@ -85,32 +99,22 @@ Tile.prototype.updateTileType = function(tileType)
   {
     case TileType.Land:
       this.isPassable = true;
-      this.color = 'rgb(255, 222, 121)';
-      break;
-
-    case TileType.Coast:
-      this.isPassable = true;
-      this.color = 'rgb(0, 255, 255)';
       break;
 
     case TileType.Water:
       this.isPassable = true;
-      this.color = 'rgb(0, 114, 255)';
       break;
 
     case TileType.Tree:
       this.isPassable = false;
-      this.color = 'rgb(0, 255, 0)';
       break;
 
     case TileType.TreeWithFruit:
       this.isPassable = false;
-      this.color = 'rgb(255, 0, 0)';
       break;
 
     case TileType.Tower:
       this.isPassable = false;
-      this.color = 'rgb(0, 0, 0)';
       break;
   }
 }

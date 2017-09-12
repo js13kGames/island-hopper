@@ -51,6 +51,12 @@ function Game(canvas, gameMessageElement)
   this.zonesCompleted = -1;
 
   this.hasPlayerMoved = false;
+  this.hasPlayerEatenFruit = false;
+  this.hasPlayerChoppedTree = false;
+  this.hasPlayerBuiltTower = false;
+  this.hasPlayerSwimmed = false;
+  this.hasPlayerDiscoveredIsland = false;
+  this.hasCompletedTutorial = false;
 }
 
 /**
@@ -406,6 +412,7 @@ Game.prototype.updateGameplay = function()
     {
       // If so, pick the fruit and eat it
       playerActionTile.updateTileType(TileType.Tree);
+      self.hasPlayerEatenFruit = true;
       self.playerHealth += 10;
 
       if(self.playerHealth > self.maxPlayerHealth)
@@ -419,6 +426,7 @@ Game.prototype.updateGameplay = function()
     {
       // If so, cut down the tree
       playerActionTile.updateTileType(TileType.Land);
+      self.hasPlayerChoppedTree = true;
       self.playerWoodCount++;
     }
 
@@ -514,6 +522,13 @@ Game.prototype.advanceLevel = function()
   this.player.y = 0;
   this.playerHealth = this.maxPlayerHealth;
 
+  if(this.zonesCompleted === -1)
+  {
+    // Start the player off with reduced health to demonstrate refilling health
+    // with fruit
+    this.playerHealth = 80;
+  }
+
   // Reset the map center
   this.mapCenterX = (this.canvasWidth/2);
   this.mapCenterY = (this.canvasHeight/2);
@@ -557,9 +572,17 @@ Game.prototype.updateMessages = function()
   // Is the player just starting the tutorial?
   if(self.zonesCompleted === 0)
   {
-    if(self.hasPlayerMoved)
+    if(self.hasPlayerChoppedTree)
     {
-      self.updateMessage("Great! Now it's time to eat! Stand in front of a tree with fruit and press X.");
+      self.updateMessage("Now we're cooking! Find an empty spot of land and press X to build a tower!");
+    }
+    else if(self.hasPlayerEatenFruit)
+    {
+      self.updateMessage("You're a natural! Now face a fruitless tree and chop it down with X to get some wood!");
+    }
+    else if(self.hasPlayerMoved)
+    {
+      self.updateMessage("Great! Now it's time to eat and refill some health! Stand in front of a tree with fruit and press X.");
     }
     else
     {
