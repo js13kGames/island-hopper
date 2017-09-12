@@ -289,6 +289,9 @@ Game.prototype.updateGameplay = function()
 
   // Player/tile interactions
   var playerActionTile = null;
+  var playerActionTileX = null;
+  var playerActionTileY = null;
+
   var playerStandingTile = null;
 
   var greatestIntersection = null;
@@ -361,6 +364,8 @@ Game.prototype.updateGameplay = function()
     if(playerActionTile == null && Utility.intersects(tile.getBoundingRectangle(), self.player.getActionBoundingRectangle()))
     {
       playerActionTile = tile;
+      playerActionTileX = tileX;
+      playerActionTileY = tileY;
     }
 
   });
@@ -425,9 +430,12 @@ Game.prototype.updateGameplay = function()
     else if(playerActionTile.type === TileType.Tree)
     {
       // If so, cut down the tree
-      playerActionTile.updateTileType(TileType.Land);
-      self.hasPlayerChoppedTree = true;
-      self.playerWoodCount++;
+      if(self.playerWoodCount < 5)
+      {
+        playerActionTile.updateTileType(TileType.Land);
+        self.hasPlayerChoppedTree = true;
+        self.playerWoodCount++;
+      }
     }
 
     // Is the player interacting with a tower?
@@ -438,13 +446,35 @@ Game.prototype.updateGameplay = function()
       self.player.y = playerActionTile.y;
       self.isPlayerClimbing = true;
     }
+
+    // Is the player interacting with land?
+    else if(playerActionTile.type === TileType.Land)
+    {
+      // If so, build a tower
+      if(self.playerWoodCount > 0)
+      {
+        // Start with the initial base
+        playerActionTile.updateTileType(TileType.Tower);
+        var towerY = playerActionTileY;
+
+        // Next, build upwards until the player runs out of wood
+        while(self.playerWoodCount > 0)
+        {
+          towerY--;
+          self.tileMap.tiles[towerY][playerActionTileX].updateTileType(TileType.Tower);
+          self.playerWoodCount--;
+        }
+
+        self.hasPlayerBuiltTower = true;
+      }
+    }
   }
 
   // Update the health bar
   self.healthBar.playerHealthPercentage = (self.playerHealth/100);
 
   // Update the wood inventory
-  //self.woodInventory.count = self.playerWoodCount;
+  self.woodInventory.count = self.playerWoodCount;
 
   // Update the zoom level
   if(self.zoomLevel < 0)
@@ -572,7 +602,11 @@ Game.prototype.updateMessages = function()
   // Is the player just starting the tutorial?
   if(self.zonesCompleted === 0)
   {
-    if(self.hasPlayerChoppedTree)
+    if(self.hasPlayerBuiltTower)
+    {
+      self.updateMessage("Ooh, look at that island in the distance! Swim over to it!");
+    }
+    else if(self.hasPlayerChoppedTree)
     {
       self.updateMessage("Now we're cooking! Find an empty spot of land and press X to build a tower!");
     }

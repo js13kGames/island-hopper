@@ -33,6 +33,9 @@ function Tile(x, y, size, type)
 
   this.treeTileImage = new Image();
   this.treeTileImage.src = 'images/tree.png';
+
+  this.towerTileImage = new Image();
+  this.towerTileImage.src = 'images/tower.png';
 }
 
 /**
@@ -61,21 +64,27 @@ Tile.prototype.draw = function(context, mapWidth, mapHeight, mapCenterX, mapCent
     return;
   }
 
-  if(this.type === TileType.Land)
+  else if(this.type === TileType.Land)
   {
     context.drawImage(this.landTileImage, x, y, width, height);
     return;
   }
 
-  if(this.type === TileType.TreeWithFruit)
+  else if(this.type === TileType.TreeWithFruit)
   {
     context.drawImage(this.treeWithFruitTileImage, x, y, width, height);
     return;
   }
 
-  if(this.type === TileType.Tree)
+  else if(this.type === TileType.Tree)
   {
     context.drawImage(this.treeTileImage, x, y, width, height);
+    return;
+  }
+
+  else if(this.type === TileType.Tower)
+  {
+    context.drawImage(this.towerTileImage, x, y, width, height);
     return;
   }
 };
