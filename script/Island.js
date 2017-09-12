@@ -2,10 +2,10 @@
  * An island
  * @constructor
  */
-function Island(tileX, tileY, tileWidth, tileHeight)
+function Island(tileX, tileY, tileWidth, tileHeight, isDiscovered)
 {
   this.tiles = this.generateTiles(tileX, tileY, tileWidth, tileHeight);
-  this.isDiscovered = false;
+  this.isDiscovered = isDiscovered;
 }
 
 Island.prototype.containsCoordinate = function(x, y)
@@ -68,7 +68,8 @@ Island.prototype.generateTiles = function(x, y, width, height)
       tiles.push({
         x: currX,
         y: currY,
-        type: type
+        type: type,
+        isDiscovered: this.isDiscovered
       });
     }
   }

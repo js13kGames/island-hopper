@@ -42,7 +42,8 @@ function Game(canvas, gameMessageElement)
   this.playerWoodCount = 0;
 
   this.isPlayerClimbing = false;
-  this.playerClimbStartTile = null;
+  self.preClimbingX = null;
+  self.preClimbingY = null;
 
   this.maxZoomLevel = 300;
   this.zoomLevel = 0;
@@ -54,7 +55,9 @@ function Game(canvas, gameMessageElement)
   this.hasPlayerEatenFruit = false;
   this.hasPlayerChoppedTree = false;
   this.hasPlayerBuiltTower = false;
-  this.hasPlayerSwimmed = false;
+  this.hasPlayerClimbedTower = false;
+  this.hasPlayerDismounted = false;
+  this.hasPlayerSwam = false;
   this.hasPlayerDiscoveredIsland = false;
   this.hasCompletedTutorial = false;
 }
@@ -382,6 +385,7 @@ Game.prototype.updateGameplay = function()
   {
     // If so, deplete their health
     self.playerHealth -= 0.1;
+    self.hasPlayerSwam = true;
   }
 
   // If the player is climbing, update their zoom level
@@ -396,6 +400,16 @@ Game.prototype.updateGameplay = function()
     {
       self.zoomLevel--;
     }
+  }
+
+  // Is the player trying to drop from climbing?
+  if(self.isActionActive && self.isPlayerClimbing)
+  {
+    self.isPlayerClimbing = false;
+    self.zoomLevel = 0;
+    self.player.x = self.preClimbingX;
+    self.player.y = self.preClimbingY;
+    self.hasPlayerDismounted = true;
   }
 
   // If applicable, reset the player's X/Y coordinates
@@ -442,9 +456,15 @@ Game.prototype.updateGameplay = function()
     else if(playerActionTile.type === TileType.Tower)
     {
       // If so, place the player on the tower and set them into climbing state
+      self.preClimbingX = self.player.x;
+      self.preClimbingY = self.player.y;
+
       self.player.x = playerActionTile.x;
       self.player.y = playerActionTile.y;
+
       self.isPlayerClimbing = true;
+
+      self.hasPlayerClimbedTower = true;
     }
 
     // Is the player interacting with land?
@@ -602,9 +622,21 @@ Game.prototype.updateMessages = function()
   // Is the player just starting the tutorial?
   if(self.zonesCompleted === 0)
   {
-    if(self.hasPlayerBuiltTower)
+    if(self.hasPlayerSwam)
     {
-      self.updateMessage("Ooh, look at that island in the distance! Swim over to it!");
+      self.updateMessage("Be careful! Swimming depletes your health!");
+    }
+    else if(self.hasPlayerDismounted)
+    {
+      self.updateMessage("Let's swim over to that island!");
+    }
+    else if(self.hasPlayerClimbedTower)
+    {
+      self.updateMessage("Ooh! Look at that hidden island over there! Dismount with X.")
+    }
+    else if(self.hasPlayerBuiltTower)
+    {
+      self.updateMessage("Beautiful! Climb the tower with X.");
     }
     else if(self.hasPlayerChoppedTree)
     {

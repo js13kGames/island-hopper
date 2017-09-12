@@ -91,6 +91,7 @@ TileMap.prototype.getUndiscoveredIsland = function(tileX, tileY)
     {
       undiscoveredIsland = island;
     }
+
   });
 
   return undiscoveredIsland;
@@ -127,8 +128,7 @@ TileMap.prototype.generateIslands = function(difficulty)
   var self = this;
 
   return [
-    new Island(self.mapSize/2, self.mapSize/2, 10, 10),
-    new Island(20, 20, 6, 6),
-    new Island(30, 30, 6, 6),
+    new Island(self.mapSize/2, self.mapSize/2, 8, 8, true),
+    new Island(self.mapSize/2, self.mapSize/4, 6, 6, false)
   ];
 }

@@ -36,6 +36,8 @@ function Tile(x, y, size, type)
 
   this.towerTileImage = new Image();
   this.towerTileImage.src = 'images/tower.png';
+
+  this.discoveredPercentage = 0.9;
 }
 
 /**
@@ -61,31 +63,32 @@ Tile.prototype.draw = function(context, mapWidth, mapHeight, mapCenterX, mapCent
   if(this.type === TileType.Water)
   {
     context.drawImage(this.waterTileImage, x, y, width, height);
-    return;
   }
 
   else if(this.type === TileType.Land)
   {
     context.drawImage(this.landTileImage, x, y, width, height);
-    return;
   }
 
   else if(this.type === TileType.TreeWithFruit)
   {
     context.drawImage(this.treeWithFruitTileImage, x, y, width, height);
-    return;
   }
 
   else if(this.type === TileType.Tree)
   {
     context.drawImage(this.treeTileImage, x, y, width, height);
-    return;
   }
 
   else if(this.type === TileType.Tower)
   {
     context.drawImage(this.towerTileImage, x, y, width, height);
-    return;
+  }
+
+  if(!this.isDiscovered && this.type !== TileType.Water)
+  {
+    context.fillStyle = 'rgba(0, 0, 0, ' + this.discoveredPercentage + ')';
+    context.fillRect(x, y, width, height);
   }
 };
 
