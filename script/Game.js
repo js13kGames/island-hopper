@@ -49,7 +49,7 @@ function Game(canvas, gameMessageElement)
   this.zoomLevel = 0;
   this.zoomPercentage = 1;
 
-  this.zonesCompleted = -1;
+  this.zonesCompleted = 0;
 
   this.hasPlayerMoved = false;
   this.hasPlayerEatenFruit = false;
@@ -204,7 +204,7 @@ Game.prototype.drawZoneCompleteScreen = function()
 
   self.context.font = "25px Arial";
   self.context.fillStyle = "rgb(255, 255, 255)";
-  self.context.fillText("Zone Complete! Zones Completed: " + self.zonesCompleted, 50, 50);
+  self.context.fillText("Completed Zone #" + self.zonesCompleted, 50, 50);
 }
 
 Game.prototype.updateGameOverScreen = function()
@@ -580,7 +580,7 @@ Game.prototype.advanceLevel = function()
   this.player.y = 0;
   this.playerHealth = this.maxPlayerHealth;
 
-  if(this.zonesCompleted === -1)
+  if(this.zonesCompleted === 0)
   {
     // Start the player off with reduced health to demonstrate refilling health
     // with fruit
@@ -602,7 +602,7 @@ Game.prototype.generateLevel = function()
 
 Game.prototype.resetGame = function()
 {
-  this.zonesCompleted = -1;
+  this.zonesCompleted = 0;
 }
 
 Game.prototype.updateMessage = function(message)
@@ -628,9 +628,13 @@ Game.prototype.updateMessages = function()
   var self = this;
 
   // Is the player just starting the tutorial?
-  if(self.zonesCompleted === 0)
+  if(self.zonesCompleted === 1)
   {
-    if(self.hasPlayerSwam)
+    if(self.hasPlayerDiscoveredIsland)
+    {
+      self.updateMessage("You discovered a new island! Now discover all five islands in this zone to move onto the next one!");
+    }
+    else if(self.hasPlayerSwam)
     {
       self.updateMessage("Be careful! Swimming depletes your health!");
     }

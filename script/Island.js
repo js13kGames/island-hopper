@@ -57,9 +57,12 @@ Island.prototype.generateTiles = function(x, y, width, height, isDiscovered)
       var type = TileType.Land;
 
       // If we're in the center and the island isn't already discovered, place a marker
-      if(!isDiscovered && (currX === x && currY === y))
+      if((currX === x && currY === y))
       {
-        type = TileType.Marker;
+        if(!isDiscovered)
+        {
+          type = TileType.Marker;
+        }
       }
 
       // Otherwise, randomly place some trees
