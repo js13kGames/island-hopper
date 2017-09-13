@@ -21,6 +21,7 @@ function Tile(x, y, size, type)
   this.updateTileType(type);
 
   this.isIntersecting = false;
+  this.isActive = false;
 
   this.waterTileImage = new Image();
   this.waterTileImage.src = 'images/water.png';
@@ -89,6 +90,12 @@ Tile.prototype.draw = function(context, mapWidth, mapHeight, mapCenterX, mapCent
   else if(this.type === TileType.Marker)
   {
     context.drawImage(this.markerTileImage, x, y, width, height);
+  }
+
+  if(this.isActive)
+  {
+    context.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    context.fillRect(x, y, width, height);
   }
 };
 

@@ -310,6 +310,12 @@ Game.prototype.updateGameplay = function()
 
   self.tileMap.forEachTile(function(tile, tileX, tileY) {
 
+    // Reset active tile status
+    if(tile.isActive)
+    {
+      tile.isActive = false;
+    }
+
     var intersection = Utility.getIntersection(self.player.getBoundingRectangle(), tile.getBoundingRectangle());
 
     // Tile intersects with player
@@ -367,6 +373,12 @@ Game.prototype.updateGameplay = function()
     }
 
   });
+
+  // Set the player's action tile as active
+  if(playerActionTile != null)
+  {
+    playerActionTile.isActive = true;
+  }
 
   // Has the player run out of health?
   if(self.playerHealth <= 0)
