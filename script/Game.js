@@ -466,16 +466,6 @@ Game.prototype.updateGameplay = function()
     }
   }
 
-  // Is the player trying to drop from climbing?
-  if(self.isActionActive && self.isPlayerClimbing)
-  {
-    self.isPlayerClimbing = false;
-    self.zoomLevel = 0;
-    self.player.x = self.preClimbingX;
-    self.player.y = self.preClimbingY;
-    self.hasPlayerDismounted = true;
-  }
-
   // If applicable, reset the player's X/Y coordinates
   if(resetX)
   {
@@ -485,6 +475,16 @@ Game.prototype.updateGameplay = function()
   if(resetY)
   {
     self.player.y = originalPlayerY;
+  }
+
+  // Is the player trying to drop from climbing?
+  if(self.isActionActive && self.isPlayerClimbing)
+  {
+    self.isPlayerClimbing = false;
+    self.zoomLevel = 0;
+    self.player.x = self.preClimbingX;
+    self.player.y = self.preClimbingY;
+    self.hasPlayerDismounted = true;
   }
 
   // Is the player trying to interact with a tile?
