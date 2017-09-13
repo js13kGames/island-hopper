@@ -246,21 +246,37 @@ Game.prototype.updateGameplay = function()
   if(self.isUpPressed)
   {
     self.player.y -= self.playerSpeed;
+    self.player.isFacingUp = true;
+    self.player.isFacingLeft = false;
+    self.player.isFacingRight = false;
+    self.player.isFacingDown = false;
   }
 
   if(self.isDownPressed)
   {
     self.player.y += self.playerSpeed;
+    self.player.isFacingUp = false;
+    self.player.isFacingLeft = false;
+    self.player.isFacingRight = false;
+    self.player.isFacingDown = true;
   }
 
   if(self.isLeftPressed && !self.isPlayerClimbing)
   {
     self.player.x -= self.playerSpeed;
+    self.player.isFacingUp = false;
+    self.player.isFacingLeft = true;
+    self.player.isFacingRight = false;
+    self.player.isFacingDown = false;
   }
 
   if(self.isRightPressed && !self.isPlayerClimbing)
   {
     self.player.x += self.playerSpeed;
+    self.player.isFacingUp = false;
+    self.player.isFacingLeft = false;
+    self.player.isFacingRight = true;
+    self.player.isFacingDown = false;
   }
 
   // Tutorial: Has player moved?

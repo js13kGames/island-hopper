@@ -15,6 +15,11 @@ function Player(props)
   this.halfWidth = (this.width/2);
 
   this.boundBuffer = 2;
+
+  this.isFacingUp = false;
+  this.isFacingLeft = false;
+  this.isFacingRight = false;
+  this.isFacingDown = true;
 }
 
 /**
@@ -61,10 +66,43 @@ Player.prototype.getBoundingRectangle = function()
 
 Player.prototype.getActionBoundingRectangle = function()
 {
-  return {
-    x: this.x + (this.width/2),
-    y: this.y - (this.height/2) - 5,
-    height: 1,
-    width: 1
-  };
+  if(this.isFacingUp)
+  {
+    return {
+      x: this.x + (this.width/2),
+      y: this.y - (this.height/2) - 5,
+      height: 1,
+      width: 1
+    };
+  }
+
+  else if(this.isFacingDown)
+  {
+    return {
+      x: this.x + (this.width/2),
+      y: this.y + (this.height) + (this.height/2) + 5,
+      height: 1,
+      width: 1
+    };
+  }
+
+  else if(this.isFacingLeft)
+  {
+    return {
+      x: this.x - (this.width/2) - 5,
+      y: this.y + (this.height/2),
+      height: 1,
+      width: 1
+    };
+  }
+
+  else if(this.isFacingRight)
+  {
+    return {
+      x: this.x + (this.width) + (this.width/2) + 5,
+      y: this.y + (this.height/2),
+      height: 1,
+      width: 1
+    };
+  }
 }
