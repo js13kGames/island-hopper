@@ -648,6 +648,7 @@ Game.prototype.advanceLevel = function()
   this.player.x = 0;
   this.player.y = 0;
   this.playerHealth = this.maxPlayerHealth;
+  this.playerWoodCount = 0;
 
   if(this.zonesCompleted === 0)
   {
