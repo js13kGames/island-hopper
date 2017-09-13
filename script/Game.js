@@ -64,6 +64,9 @@ function Game(canvas, gameMessageElement)
   this.hasPlayerSwam = false;
   this.hasPlayerDiscoveredIsland = false;
   this.hasCompletedTutorial = false;
+
+  this.waterTileImage = new Image();
+  this.waterTileImage.src = 'images/water.png';
 }
 
 /**
@@ -609,6 +612,16 @@ Game.prototype.drawGameplay = function()
 
   // Clear the canvas
   self.context.clearRect(0, 0, self.canvasWidth, self.canvasHeight);
+
+  // Draw the water as background
+  var currTileSize = self.tileSize * self.zoomPercentage;
+  for(var x = 0; x < self.canvasWidth; x += currTileSize)
+  {
+    for(var y = 0; y < self.canvasHeight; y += currTileSize)
+    {
+      self.context.drawImage(self.waterTileImage, x, y, currTileSize, currTileSize);
+    }
+  }
 
   // Draw the map
   self.tileMap.draw(self.context, self.canvasWidth, self.canvasHeight, self.mapCenterX, self.mapCenterY, self.zoomPercentage);

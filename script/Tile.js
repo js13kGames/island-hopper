@@ -64,7 +64,6 @@ Tile.prototype.draw = function(context, mapWidth, mapHeight, mapCenterX, mapCent
 
   if(this.type === TileType.Water)
   {
-    context.drawImage(this.waterTileImage, x, y, width, height);
   }
 
   else if(this.type === TileType.Land)
