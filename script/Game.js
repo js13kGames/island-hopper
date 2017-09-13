@@ -421,7 +421,7 @@ Game.prototype.updateGameplay = function()
   }
 
   // What tile is the player standing on?
-  if(playerStandingTile != null)
+  if(playerStandingTile != null && !self.isPlayerClimbing)
   {
     // Is the player standing on water?
     if(playerStandingTile.type === TileType.Water)
