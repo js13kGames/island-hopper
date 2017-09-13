@@ -22,29 +22,14 @@ function Player(props)
   this.isFacingDown = true;
   this.isSwimming = false;
 
-  this.upImage = new Image();
-  this.upImage.src = 'images/player_up.png';
-
-  this.downImage = new Image();
-  this.downImage.src = 'images/player_down.png';
-
-  this.leftImage = new Image();
-  this.leftImage.src = 'images/player_left.png';
-
-  this.rightImage = new Image();
-  this.rightImage.src = 'images/player_right.png';
-
-  this.upSwimImage = new Image();
-  this.upSwimImage.src = 'images/player_swim_up.png';
-
-  this.downSwimImage = new Image();
-  this.downSwimImage.src = 'images/player_swim_down.png';
-
-  this.leftSwimImage = new Image();
-  this.leftSwimImage.src = 'images/player_swim_left.png';
-
-  this.rightSwimImage = new Image();
-  this.rightSwimImage.src = 'images/player_swim_right.png';
+  this.upImage = ImageCache.upImage;
+  this.downImage = ImageCache.downImage;
+  this.leftImage = ImageCache.leftImage;
+  this.rightImage = ImageCache.rightImage;
+  this.upSwimImage = ImageCache.upSwimImage;
+  this.downSwimImage = ImageCache.downSwimImage;
+  this.leftSwimImage = ImageCache.leftSwimImage;
+  this.rightSwimImage = ImageCache.rightSwimImage;
 }
 
 /**

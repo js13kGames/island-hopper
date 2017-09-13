@@ -65,8 +65,7 @@ function Game(canvas, gameMessageElement)
   this.hasPlayerDiscoveredIsland = false;
   this.hasCompletedTutorial = false;
 
-  this.waterTileImage = new Image();
-  this.waterTileImage.src = 'images/water.png';
+  this.waterTileImage = ImageCache.waterTileImage;
 }
 
 /**

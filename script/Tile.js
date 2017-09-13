@@ -23,23 +23,12 @@ function Tile(x, y, size, type)
   this.isIntersecting = false;
   this.isActive = false;
 
-  this.waterTileImage = new Image();
-  this.waterTileImage.src = 'images/water.png';
-
-  this.landTileImage = new Image();
-  this.landTileImage.src = 'images/land.png';
-
-  this.treeWithFruitTileImage = new Image();
-  this.treeWithFruitTileImage.src = 'images/tree_with_fruit.png';
-
-  this.treeTileImage = new Image();
-  this.treeTileImage.src = 'images/tree.png';
-
-  this.towerTileImage = new Image();
-  this.towerTileImage.src = 'images/tower.png';
-
-  this.markerTileImage = new Image();
-  this.markerTileImage.src = 'images/marker.png';
+  this.waterTileImage = ImageCache.waterTileImage;
+  this.landTileImage = ImageCache.landTileImage;
+  this.treeWithFruitTileImage = ImageCache.treeWithFruitTileImage;
+  this.treeTileImage = ImageCache.treeTileImage;
+  this.towerTileImage = ImageCache.towerTileImage;
+  this.markerTileImage = ImageCache.markerTileImage;
 }
 
 /**
