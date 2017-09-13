@@ -194,6 +194,7 @@ Game.prototype.drawStartScreen = function()
 Game.prototype.updateZoneCompleteScreen = function()
 {
   var self = this;
+  self.clearMessage();
 
   if(self.isActionPressed)
   {
@@ -443,6 +444,7 @@ Game.prototype.updateGameplay = function()
         // Mark the island as discovered
         undiscoveredIsland.isDiscovered = true;
         playerStandingTile.updateTileType(TileType.Land);
+        self.hasPlayerDiscoveredIsland = true;
       }
     }
 
@@ -702,7 +704,7 @@ Game.prototype.updateMessages = function()
   {
     if(self.hasPlayerDiscoveredIsland)
     {
-      self.updateMessage("You discovered a new island! Now discover all five islands in this zone to move onto the next one!");
+      self.updateMessage("You discovered a new island! Now <em>discover all five islands in this zone</em> to move onto the next one!");
     }
     else if(self.hasPlayerSwam)
     {
@@ -710,31 +712,31 @@ Game.prototype.updateMessages = function()
     }
     else if(self.hasPlayerDismounted)
     {
-      self.updateMessage("Let's swim over to that island and stand in its center circle!");
+      self.updateMessage("Let's swim over to that island and <em>stand in its center circle</em>!");
     }
     else if(self.hasPlayerClimbedTower)
     {
-      self.updateMessage("Ooh! Look at that hidden island over there! Dismount with X.")
+      self.updateMessage("Ooh! Look at that island over there! <em>Dismount with X</em>.")
     }
     else if(self.hasPlayerBuiltTower)
     {
-      self.updateMessage("Beautiful! Climb the tower with X.");
+      self.updateMessage("Beautiful! <em>Climb the tower with X</em>. Collect more wood to build taller towers.");
     }
     else if(self.hasPlayerChoppedTree)
     {
-      self.updateMessage("Now we're cooking! Face up towards an empty spot of land and press X to build a tower!");
+      self.updateMessage("Now we're cooking! <em>Face up towards an empty spot of land and press X</em> to build a tower!");
     }
     else if(self.hasPlayerEatenFruit)
     {
-      self.updateMessage("You're a natural! Now stand near a fruitless tree and chop it down with X to get some wood!");
+      self.updateMessage("You're a natural! Now <em>stand near a fruitless tree and chop it down with X</em> to get some wood!");
     }
     else if(self.hasPlayerMoved)
     {
-      self.updateMessage("Great! Now it's time to eat and refill some health! Stand near a tree with fruit and press X.");
+      self.updateMessage("Great! Now it's time to eat and refill some health! <em>Stand near a tree with fruit and press X</em>.");
     }
     else
     {
-      self.updateMessage("Hello Explorer! Move with the arrow keys!");
+      self.updateMessage("Hello Explorer! Move with the <em>arrow keys</em>!");
     }
   }
 }
