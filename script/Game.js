@@ -327,12 +327,24 @@ Game.prototype.updateGameplay = function()
   var resetX = false;
   var resetY = false;
 
+  var lowerBoundX = (self.player.x - (self.tileSize * 2));
+  var upperBoundX = (self.player.x + (self.tileSize * 2));
+
+  var lowerBoundY = (self.player.y - (self.tileSize * 2));
+  var upperBoundY = (self.player.y + (self.tileSize * 2));
+
   self.tileMap.forEachTile(function(tile, tileX, tileY) {
 
     // Reset active tile status
     if(tile.isActive)
     {
       tile.isActive = false;
+    }
+
+    // Let's only check the tiles around the player
+    if(tile.x < lowerBoundX || tile.x > upperBoundX || tile.y < lowerBoundY || tile.y > upperBoundY)
+    {
+      return;
     }
 
     var intersection = Utility.getIntersection(self.player.getBoundingRectangle(), tile.getBoundingRectangle());
