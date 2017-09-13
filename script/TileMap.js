@@ -6,7 +6,7 @@
  */
 function TileMap(x, y, tileSize, difficulty)
 {
-  this.mapSize = 100;
+  this.mapSize = 80;
 
   this.tiles = [];
   this.tileSize = tileSize;
@@ -134,10 +134,10 @@ TileMap.prototype.generateIslands = function(difficulty)
     // Tutorial Level
     return [
       new Island(halfMapSize, halfMapSize, 8, 8, true),
-      new Island(halfMapSize, halfMapSize - 20, 8, 8, false),
-      //new Island(halfMapSize, halfMapSize + 20, 8, 8, false),
-      //new Island(halfMapSize + 20, halfMapSize, 8, 8, false),
-      //new Island(halfMapSize - 20, halfMapSize, 8, 8, false)
+      new Island(halfMapSize, halfMapSize - 17, 8, 8, false),
+      //new Island(halfMapSize, halfMapSize + 17, 8, 8, false),
+      //new Island(halfMapSize + 19, halfMapSize, 8, 8, false),
+      //new Island(halfMapSize - 19, halfMapSize, 8, 8, false)
     ];
   }
 

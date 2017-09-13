@@ -49,7 +49,7 @@ function Game(canvas, gameMessageElement)
   self.preClimbingX = null;
   self.preClimbingY = null;
 
-  this.maxZoomLevel = 300;
+  this.maxZoomLevel = 200;
   this.zoomLevel = 0;
   this.zoomPercentage = 1;
 
