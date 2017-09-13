@@ -427,7 +427,7 @@ Game.prototype.updateGameplay = function()
     if(playerStandingTile.type === TileType.Water)
     {
       // If so, deplete their health
-      self.playerHealth -= 0.1;
+      self.playerHealth -= 0.3;
       self.hasPlayerSwam = true;
       self.playerSpeed = self.playerSwimmingSpeed;
       self.player.isSwimming = true;
