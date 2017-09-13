@@ -135,9 +135,9 @@ TileMap.prototype.generateIslands = function(difficulty)
     return [
       new Island(halfMapSize, halfMapSize, 8, 8, true),
       new Island(halfMapSize, halfMapSize - 17, 8, 8, false),
-      //new Island(halfMapSize, halfMapSize + 17, 8, 8, false),
-      //new Island(halfMapSize + 19, halfMapSize, 8, 8, false),
-      //new Island(halfMapSize - 19, halfMapSize, 8, 8, false)
+      new Island(halfMapSize, halfMapSize + 17, 8, 8, false),
+      new Island(halfMapSize + 19, halfMapSize, 8, 8, false),
+      new Island(halfMapSize - 19, halfMapSize, 8, 8, false)
     ];
   }
 
