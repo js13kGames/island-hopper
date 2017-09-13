@@ -188,7 +188,7 @@ Game.prototype.drawStartScreen = function()
 
   self.context.font = "25px Arial";
   self.context.fillStyle = "rgb(255, 255, 255)";
-  self.context.fillText("Island Hopper", 50, 50);
+  self.context.fillText("Island Hopper", 0, 50);
 }
 
 Game.prototype.updateZoneCompleteScreen = function()
@@ -210,7 +210,7 @@ Game.prototype.drawZoneCompleteScreen = function()
 
   self.context.font = "25px Arial";
   self.context.fillStyle = "rgb(255, 255, 255)";
-  self.context.fillText("Completed Zone #" + self.zonesCompleted, 50, 50);
+  self.context.fillText("Completed Zone #" + self.zonesCompleted, 0, 50);
 }
 
 Game.prototype.updateGameOverScreen = function()
@@ -232,7 +232,7 @@ Game.prototype.drawGameOverScreen = function()
 
   self.context.font = "25px Arial";
   self.context.fillStyle = "rgb(255, 255, 255)";
-  self.context.fillText("Game Over", 50, 50);
+  self.context.fillText("Game Over", 0, 50);
 }
 
 Game.prototype.updateGameplay = function()
@@ -663,7 +663,7 @@ Game.prototype.advanceLevel = function()
 
 Game.prototype.generateLevel = function()
 {
-  return new TileMap(0, 0, this.tileSize, 0);
+  return new TileMap(0, 0, this.tileSize, this.zonesCompleted);
 }
 
 Game.prototype.resetGame = function()
