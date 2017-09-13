@@ -242,6 +242,9 @@ Game.prototype.updateGameplay = function()
   var originalPlayerX = self.player.x;
   var originalPlayerY = self.player.y;
 
+  // Reset player swimming
+  self.player.isSwimming = false;
+
   // Player movement
   if(self.isUpPressed)
   {
@@ -413,6 +416,7 @@ Game.prototype.updateGameplay = function()
       self.playerHealth -= 0.1;
       self.hasPlayerSwam = true;
       self.playerSpeed = self.playerSwimmingSpeed;
+      self.player.isSwimming = true;
     }
 
     // Is the player standing on an island marker?

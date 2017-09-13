@@ -20,6 +20,31 @@ function Player(props)
   this.isFacingLeft = false;
   this.isFacingRight = false;
   this.isFacingDown = true;
+  this.isSwimming = false;
+
+  this.upImage = new Image();
+  this.upImage.src = 'images/player_up.png';
+
+  this.downImage = new Image();
+  this.downImage.src = 'images/player_down.png';
+
+  this.leftImage = new Image();
+  this.leftImage.src = 'images/player_left.png';
+
+  this.rightImage = new Image();
+  this.rightImage.src = 'images/player_right.png';
+
+  this.upSwimImage = new Image();
+  this.upSwimImage.src = 'images/player_swim_up.png';
+
+  this.downSwimImage = new Image();
+  this.downSwimImage.src = 'images/player_swim_down.png';
+
+  this.leftSwimImage = new Image();
+  this.leftSwimImage.src = 'images/player_swim_left.png';
+
+  this.rightSwimImage = new Image();
+  this.rightSwimImage.src = 'images/player_swim_right.png';
 }
 
 /**
@@ -43,8 +68,49 @@ Player.prototype.draw = function(context, mapWidth, mapHeight, mapCenterX, mapCe
 
   var width = this.width * zoomPercentage;
   var height = this.height * zoomPercentage;
+  var image = null;
 
-  context.fillRect(x, y, width, height);
+  if(this.isFacingUp)
+  {
+    image = this.upImage;
+
+    if(this.isSwimming)
+    {
+      image = this.upSwimImage;
+    }
+  }
+
+  if(this.isFacingDown)
+  {
+    image = this.downImage;
+
+    if(this.isSwimming)
+    {
+      image = this.downSwimImage;
+    }
+  }
+
+  if(this.isFacingLeft)
+  {
+    image = this.leftImage;
+
+    if(this.isSwimming)
+    {
+      image = this.leftSwimImage;
+    }
+  }
+
+  if(this.isFacingRight)
+  {
+    image = this.rightImage;
+
+    if(this.isSwimming)
+    {
+      image = this.rightSwimImage;
+    }
+  }
+
+  context.drawImage(image, x, y, width, height);
 };
 
 /**
