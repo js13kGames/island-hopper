@@ -13,6 +13,8 @@ function Player(props)
 
   this.halfHeight = (this.height/2);
   this.halfWidth = (this.width/2);
+
+  this.boundBuffer = 2;
 }
 
 /**
@@ -50,10 +52,10 @@ Player.prototype.update = function()
 Player.prototype.getBoundingRectangle = function()
 {
   return {
-    x: this.x,
-    y: this.y,
-    height: this.height,
-    width: this.width
+    x: this.x + this.boundBuffer,
+    y: this.y + this.boundBuffer,
+    height: this.height - this.boundBuffer,
+    width: this.width - this.boundBuffer
   };
 }
 

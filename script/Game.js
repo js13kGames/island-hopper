@@ -38,6 +38,10 @@ function Game(canvas, gameMessageElement)
   this.maxPlayerHealth = 100;
   this.playerHealth = this.maxPlayerHealth;
 
+  this.playerWalkingSpeed = 2;
+  this.playerSwimmingSpeed = 1;
+  this.playerSpeed = this.playerWalkingSpeed;
+
   this.maxWoodCount = 5;
   this.playerWoodCount = 0;
 
@@ -241,22 +245,22 @@ Game.prototype.updateGameplay = function()
   // Player movement
   if(self.isUpPressed)
   {
-    self.player.y--;
+    self.player.y -= self.playerSpeed;
   }
 
   if(self.isDownPressed)
   {
-    self.player.y++;
+    self.player.y += self.playerSpeed;
   }
 
   if(self.isLeftPressed && !self.isPlayerClimbing)
   {
-    self.player.x--;
+    self.player.x -= self.playerSpeed;
   }
 
   if(self.isRightPressed && !self.isPlayerClimbing)
   {
-    self.player.x++;
+    self.player.x += self.playerSpeed;
   }
 
   // Tutorial: Has player moved?
@@ -380,6 +384,7 @@ Game.prototype.updateGameplay = function()
       // If so, deplete their health
       self.playerHealth -= 0.1;
       self.hasPlayerSwam = true;
+      self.playerSpeed = self.playerSwimmingSpeed;
     }
 
     // Is the player standing on an island marker?
@@ -393,6 +398,11 @@ Game.prototype.updateGameplay = function()
         undiscoveredIsland.isDiscovered = true;
         playerStandingTile.updateTileType(TileType.Land);
       }
+    }
+
+    else if(playerStandingTile.type === TileType.Land)
+    {
+      self.playerSpeed = self.playerWalkingSpeed;
     }
   }
 
