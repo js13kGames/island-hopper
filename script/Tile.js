@@ -51,6 +51,11 @@ Tile.prototype.draw = function(context, mapWidth, mapHeight, mapCenterX, mapCent
   var width = this.width * zoomPercentage;
   var height = this.height * zoomPercentage;
 
+  x = Math.ceil(x);
+  y = Math.ceil(y);
+  width = Math.ceil(width);
+  height = Math.ceil(height);
+
   if(this.type === TileType.Water)
   {
   }

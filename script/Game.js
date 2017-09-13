@@ -623,7 +623,7 @@ Game.prototype.drawGameplay = function()
   {
     for(var y = 0; y < self.canvasHeight; y += currTileSize)
     {
-      self.context.drawImage(self.waterTileImage, x, y, currTileSize, currTileSize);
+      self.context.drawImage(self.waterTileImage, Math.ceil(x), Math.ceil(y), Math.ceil(currTileSize), Math.ceil(currTileSize));
     }
   }
 
