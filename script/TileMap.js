@@ -6,7 +6,7 @@
  */
 function TileMap(x, y, tileSize, difficulty)
 {
-  this.mapSize = 80;
+  this.mapSize = 60;
 
   this.tiles = [];
   this.tileSize = tileSize;
@@ -141,17 +141,10 @@ TileMap.prototype.generateIslands = function(difficulty)
     ];
   }
 
-  var islandSize = 8;
   var islands = [ new Island(halfMapSize, halfMapSize, 8, 8, true) ];
+  var islandSize = 6;
 
-  islandSize -= difficulty;
-
-  if(islandSize < 3)
-  {
-    islandSize = 3;
-  }
-
-  for(var i=0; i<5; i++)
+  for(var i=0; i<4; i++)
   {
     var x = Utility.getRandom(islandSize, this.mapSize - islandSize);
     var y = Utility.getRandom(islandSize, this.mapSize - islandSize);

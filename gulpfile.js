@@ -8,7 +8,7 @@ var replace = require('gulp-replace');
 var uglify = require('gulp-uglify');
 var zip = require('gulp-zip');
 
-gulp.task('default', ['build:js', 'build:css', 'stage:js', 'stage:css', 'stage:html']);
+gulp.task('default', ['build:js', 'build:css', 'stage:js', 'stage:css', 'stage:images', 'stage:html']);
 
 gulp.task('build:js', function() {
 
@@ -35,6 +35,10 @@ gulp.task('stage:js', ['build:js'], function() {
 
 gulp.task('stage:css', ['build:css'], function() {
   return gulp.src('./style/main.min.css').pipe(gulp.dest('./dist/style'));
+});
+
+gulp.task('stage:images', function() {
+  return gulp.src('./images/*.png').pipe(gulp.dest('./dist/images'));
 });
 
 gulp.task('stage:html', function() {

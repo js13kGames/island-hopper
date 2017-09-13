@@ -29,11 +29,11 @@ Island.prototype.generateTiles = function(x, y, width, height, isDiscovered)
 {
   var tiles = [];
 
-  var leftX = x - (width/2);
-  var topY = y - (height/2)
+  var leftX = Math.floor(x - (width/2));
+  var topY = Math.floor(y - (height/2));
 
-  var rightX = x + (width/2);
-  var bottomY = y + (height/2);
+  var rightX = Math.ceil(x + (width/2));
+  var bottomY = Math.ceil(y + (height/2));
 
   // Generate the land
   for(var currX = leftX; currX <= rightX; currX++)

@@ -14,7 +14,7 @@ function Player(props)
   this.halfHeight = (this.height/2);
   this.halfWidth = (this.width/2);
 
-  this.boundBuffer = 2;
+  this.boundBuffer = 4;
 
   this.isFacingUp = false;
   this.isFacingLeft = false;

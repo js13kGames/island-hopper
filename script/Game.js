@@ -49,7 +49,7 @@ function Game(canvas, gameMessageElement)
   self.preClimbingX = null;
   self.preClimbingY = null;
 
-  this.maxZoomLevel = 200;
+  this.maxZoomLevel = 100;
   this.zoomLevel = 0;
   this.zoomPercentage = 1;
 
@@ -428,7 +428,7 @@ Game.prototype.updateGameplay = function()
     if(playerStandingTile.type === TileType.Water)
     {
       // If so, deplete their health
-      self.playerHealth -= 0.3;
+      self.playerHealth -= 0.1;
       self.hasPlayerSwam = true;
       self.playerSpeed = self.playerSwimmingSpeed;
       self.player.isSwimming = true;
@@ -490,7 +490,7 @@ Game.prototype.updateGameplay = function()
   }
 
   // Is the player trying to interact with a tile?
-  if(self.isActionActive && playerActionTile != null)
+  else if(self.isActionActive && playerActionTile != null)
   {
     // Is the player interacting with a fruit tree?
     if(playerActionTile.type === TileType.TreeWithFruit)
@@ -716,7 +716,7 @@ Game.prototype.updateMessages = function()
     }
     else if(self.hasPlayerClimbedTower)
     {
-      self.updateMessage("Ooh! Look at that island over there! <em>Dismount with X</em>.")
+      self.updateMessage("Ooh! Look at that island over there! <em>Dismount with X</em>.");
     }
     else if(self.hasPlayerBuiltTower)
     {
