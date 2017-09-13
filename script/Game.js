@@ -519,23 +519,26 @@ Game.prototype.updateGameplay = function()
     // Is the player interacting with a tower?
     else if(playerActionTile.type === TileType.Tower)
     {
-      // If so, place the player on the tower and set them into climbing state
-      self.preClimbingX = self.player.x;
-      self.preClimbingY = self.player.y;
+      if(self.player.isFacingUp)
+      {
+        // If so, place the player on the tower and set them into climbing state
+        self.preClimbingX = self.player.x;
+        self.preClimbingY = self.player.y;
 
-      self.player.x = playerActionTile.x;
-      self.player.y = playerActionTile.y;
+        self.player.x = playerActionTile.x;
+        self.player.y = playerActionTile.y;
 
-      self.isPlayerClimbing = true;
+        self.isPlayerClimbing = true;
 
-      self.hasPlayerClimbedTower = true;
+        self.hasPlayerClimbedTower = true;
+      }
     }
 
     // Is the player interacting with land?
     else if(playerActionTile.type === TileType.Land)
     {
       // If so, build a tower
-      if(self.playerWoodCount > 0)
+      if(self.player.isFacingUp && self.playerWoodCount > 0)
       {
         // Start with the initial base
         playerActionTile.updateTileType(TileType.Tower);
@@ -706,7 +709,7 @@ Game.prototype.updateMessages = function()
     }
     else if(self.hasPlayerDismounted)
     {
-      self.updateMessage("Let's swim over to that island!");
+      self.updateMessage("Let's swim over to that island and stand in its center circle!");
     }
     else if(self.hasPlayerClimbedTower)
     {
@@ -718,15 +721,15 @@ Game.prototype.updateMessages = function()
     }
     else if(self.hasPlayerChoppedTree)
     {
-      self.updateMessage("Now we're cooking! Find an empty spot of land and press X to build a tower!");
+      self.updateMessage("Now we're cooking! Face up towards an empty spot of land and press X to build a tower!");
     }
     else if(self.hasPlayerEatenFruit)
     {
-      self.updateMessage("You're a natural! Now face a fruitless tree and chop it down with X to get some wood!");
+      self.updateMessage("You're a natural! Now stand near a fruitless tree and chop it down with X to get some wood!");
     }
     else if(self.hasPlayerMoved)
     {
-      self.updateMessage("Great! Now it's time to eat and refill some health! Stand in front of a tree with fruit and press X.");
+      self.updateMessage("Great! Now it's time to eat and refill some health! Stand near a tree with fruit and press X.");
     }
     else
     {
