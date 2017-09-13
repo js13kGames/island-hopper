@@ -194,7 +194,7 @@ Game.prototype.drawStartScreen = function()
 Game.prototype.updateZoneCompleteScreen = function()
 {
   var self = this;
-  self.clearMessage();
+  self.updateMessage("<em>Press X</em> to head to the next zone!");
 
   if(self.isActionPressed)
   {
@@ -657,6 +657,10 @@ Game.prototype.advanceLevel = function()
     // Start the player off with reduced health to demonstrate refilling health
     // with fruit
     this.playerHealth = 80;
+  }
+  else
+  {
+    this.clearMessage();
   }
 
   // Reset the map center
