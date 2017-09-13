@@ -37,7 +37,8 @@ function Tile(x, y, size, type)
   this.towerTileImage = new Image();
   this.towerTileImage.src = 'images/tower.png';
 
-  this.discoveredPercentage = 0.9;
+  this.markerTileImage = new Image();
+  this.markerTileImage.src = 'images/marker.png';
 }
 
 /**
@@ -85,10 +86,9 @@ Tile.prototype.draw = function(context, mapWidth, mapHeight, mapCenterX, mapCent
     context.drawImage(this.towerTileImage, x, y, width, height);
   }
 
-  if(!this.isDiscovered && this.type !== TileType.Water)
+  else if(this.type === TileType.Marker)
   {
-    context.fillStyle = 'rgba(0, 0, 0, ' + this.discoveredPercentage + ')';
-    context.fillRect(x, y, width, height);
+    context.drawImage(this.markerTileImage, x, y, width, height);
   }
 };
 

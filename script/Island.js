@@ -4,7 +4,7 @@
  */
 function Island(tileX, tileY, tileWidth, tileHeight, isDiscovered)
 {
-  this.tiles = this.generateTiles(tileX, tileY, tileWidth, tileHeight);
+  this.tiles = this.generateTiles(tileX, tileY, tileWidth, tileHeight, isDiscovered);
   this.isDiscovered = isDiscovered;
 }
 
@@ -25,7 +25,7 @@ Island.prototype.containsCoordinate = function(x, y)
   return hasCoordinate;
 }
 
-Island.prototype.generateTiles = function(x, y, width, height)
+Island.prototype.generateTiles = function(x, y, width, height, isDiscovered)
 {
   var tiles = [];
 
@@ -34,9 +34,6 @@ Island.prototype.generateTiles = function(x, y, width, height)
 
   var rightX = x + (width/2);
   var bottomY = y + (height/2);
-
-  var x = leftX;
-  var y = topY;
 
   // Generate the land
   for(var currX = leftX; currX <= rightX; currX++)
@@ -59,8 +56,14 @@ Island.prototype.generateTiles = function(x, y, width, height)
       // By default, place land
       var type = TileType.Land;
 
-      // Randomly place some trees
-      if(!(currX === x && currY === y) && !isEdge && Math.random() > 0.8)
+      // If we're in the center and the island isn't already discovered, place a marker
+      if(!isDiscovered && (currX === x && currY === y))
+      {
+        type = TileType.Marker;
+      }
+
+      // Otherwise, randomly place some trees
+      else if(!isEdge && Math.random() > 0.8)
       {
         type = TileType.TreeWithFruit;
       }
@@ -68,8 +71,7 @@ Island.prototype.generateTiles = function(x, y, width, height)
       tiles.push({
         x: currX,
         y: currY,
-        type: type,
-        isDiscovered: this.isDiscovered
+        type: type
       });
     }
   }

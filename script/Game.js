@@ -296,6 +296,8 @@ Game.prototype.updateGameplay = function()
   var playerActionTileY = null;
 
   var playerStandingTile = null;
+  var playerStandingTileX = null;
+  var playerStandingTileY = null;
 
   var greatestIntersection = null;
 
@@ -314,6 +316,8 @@ Game.prototype.updateGameplay = function()
       {
         greatestIntersection = intersection;
         playerStandingTile = tile;
+        playerStandingTileX = tileX;
+        playerStandingTileY = tileY;
       }
 
       // Is the player climbing?
@@ -348,19 +352,6 @@ Game.prototype.updateGameplay = function()
           resetY = true;
         }
       }
-
-      // Is the player on a land tile?
-      if(tile.type === TileType.Land)
-      {
-        // Is the player on an undiscovered island?
-        var undiscoveredIsland = self.tileMap.getUndiscoveredIsland(tileX, tileY);
-
-        if(undiscoveredIsland != null)
-        {
-          // Mark the island as discovered
-          undiscoveredIsland.isDiscovered = true;
-        }
-      }
     }
 
     // Tile intersects with player action area
@@ -380,12 +371,29 @@ Game.prototype.updateGameplay = function()
     return;
   }
 
-  // If the player is on water, deplete their health
-  if(playerStandingTile != null && playerStandingTile.type === TileType.Water)
+  // What tile is the player standing on?
+  if(playerStandingTile != null)
   {
-    // If so, deplete their health
-    self.playerHealth -= 0.1;
-    self.hasPlayerSwam = true;
+    // Is the player standing on water?
+    if(playerStandingTile.type === TileType.Water)
+    {
+      // If so, deplete their health
+      self.playerHealth -= 0.1;
+      self.hasPlayerSwam = true;
+    }
+
+    // Is the player standing on an island marker?
+    else if(playerStandingTile.type === TileType.Marker)
+    {
+      var undiscoveredIsland = self.tileMap.getUndiscoveredIsland(playerStandingTileX, playerStandingTileY);
+
+      if(undiscoveredIsland != null)
+      {
+        // Mark the island as discovered
+        undiscoveredIsland.isDiscovered = true;
+        playerStandingTile.updateTileType(TileType.Land);
+      }
+    }
   }
 
   // If the player is climbing, update their zoom level

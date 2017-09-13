@@ -3,5 +3,6 @@ TileType = {
   Water: 1,
   Tree: 2,
   TreeWithFruit: 3,
-  Tower: 4
+  Tower: 4,
+  Marker: 5
 };
